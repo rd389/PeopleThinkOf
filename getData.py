@@ -18,8 +18,8 @@ import json
  Traffic rates...
  """
 
- FILENAME = 'data.json'
- LIMIT = 100
+FILENAME = 'data.json'
+LIMIT = 100
 
 def main():
 	file = open(FILENAME, 'w')
