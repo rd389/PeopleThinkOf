@@ -19,7 +19,7 @@ import json
  """
 
 FILENAME = 'data.json'
-LIMIT = 100
+LIMIT = 10
 
 def main():
 	file = open(FILENAME, 'w')
@@ -46,6 +46,7 @@ def main():
 			"text": ama.selftext 
 			}
 
+			ama.comment_sort = "q&a"
 			ama.comments.replace_more(limit = 0)
 
 			for comment in ama.comments.list():
