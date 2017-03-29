@@ -34,7 +34,6 @@ def main():
 	for ama in subreddit.top('all', limit = LIMIT):
 
 		if "[AMA Request]" not in ama.title:
-
 			submission = {
 			"id" : ama.id,
 			"title": ama.title,
@@ -43,10 +42,11 @@ def main():
 			"author": ama.author.name,
 			"comments": [], 
 			"score": ama.score,
-			"text": ama.selftext 
+			"text": ama.selftext,
+			"nsfw" : ama.over_18,
+			"created": ama.created
 			}
 
-			ama.comment_sort = "q&a"
 			ama.comments.replace_more(limit = 0)
 
 			for comment in ama.comments.list():
@@ -57,7 +57,12 @@ def main():
 						"depth": comment.depth,
 						"parent_id": comment.parent_id ,
 						"score": comment.score,
-						"body": comment.body
+						"body": comment.body,
+						"nsfw": ama.over_18,
+						"created": comment.created,
+						"post_title": ama.title,
+						"post_url": ama.url,
+						"category": ama.link_flair_css_class
 					}]
 			if count > 0:
 				file.write(",")
