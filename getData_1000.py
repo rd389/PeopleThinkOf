@@ -2,22 +2,6 @@ import praw
 from praw.models import MoreComments
 import json
 
-""" One issue I have now is that I seem to only be getting
- 400-500 comments per submission, when there are literally
- thousands for the top all time submissions. I think it may
- have to do with the timing out or something. -- Investigate
- the replace_more function as specified in Reddit docs...
- Also try using this http://stackoverflow.com/questions/36366388/get-all-comments-from-a-specific-reddit-thread-in-python
-
- Another potential issue is that the comments list
- as is is flattened. Can make it a comment tree but is that
- necessary?
-
- File storage - best way to do it? JSON, CSV, ETC?
-
- Traffic rates...
- """
-
 FILENAME = 'data-1000.json'
 LIMIT = 1000
 
