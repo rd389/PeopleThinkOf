@@ -1,6 +1,8 @@
+from __future__ import print_function
 import praw
 from praw.models import MoreComments
 import json
+from datetime import datetime
 
 FILENAME = 'data-1000.json'
 LIMIT = 1000
@@ -58,5 +60,8 @@ def main():
 	file.close()
 
 if __name__ == '__main__':
+	startTime = datetime.now()
 	main()
 	print("done!")
+	timeTaken = datetime.now() - startTime
+	print("Time taken =", timeTaken)
