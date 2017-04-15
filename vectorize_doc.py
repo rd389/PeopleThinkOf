@@ -1,5 +1,4 @@
-import codecs, json
-import nltk
+import json
 import sys
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pickle
