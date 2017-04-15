@@ -1,6 +1,36 @@
-#Notes
+# Notes
 
-##Data Structures
+## Virtual Env
+
+1. Install virtualev
+```
+$ conda install virtualenv
+```
+
+2. Create a virtual environment
+```
+$ virtualenv <project-name>
+```
+This will create a folder `<project-name>` in your current directory.
+
+3. Activate your virtual environment
+```
+$ source <project-name>/bin/activate
+```
+
+4. Install requirements
+```
+$ pip install -r requirements.txt
+```
+
+5. Include your `<project-name>` folder in `.gitignore`
+```
+# In .gitignore
+...
+<project-name>/
+```
+
+## Data Structures
 
 - dictionary of AMA objects
     - key: id
@@ -24,16 +54,13 @@
       - asker (name)
       - op_name
 
-
-
 - tf-idf matrix for threads
 - index (in tf-idf) to id
 
 - tf-idf matrix for QA pairs
 - index (in tf-idf) to id
 
-
-
 - matrix of thread vectors
 - QA pair to index
  - 
+
