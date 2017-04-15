@@ -4,3 +4,4 @@ jenny.ipynb
 .ipynb_checkpoints
 *.pyc
 ama/
+*.json
