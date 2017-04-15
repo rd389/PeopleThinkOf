@@ -2,10 +2,11 @@ data-1000.json
 threads.json
 qa.json
 *.ipynb
-.DS_Store
+**/.DS_Store
+
 .ipynb_checkpoints
 *.pyc
-/ama
+ama/
 dups.js
 data.json
 data.zip
