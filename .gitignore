@@ -1,6 +1,7 @@
 data-1000.json
-.DS_Store
+**/.DS_Store
 jenny.ipynb
 .ipynb_checkpoints
-parse.pyc
-
+**/*.pyc
+ama/
+*.json

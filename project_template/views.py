@@ -7,10 +7,15 @@ from .form import QueryForm
 from .test import find_similar
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+from project_template import DB as db
+import json
+
 # Create your views here.
 def index(request):
     output_list = ''
     output=''
+    first = db.qa.find_one()['answer_text']
+
     if request.GET.get('search'):
         search = request.GET.get('search')
         output_list = find_similar(search)
@@ -25,4 +30,5 @@ def index(request):
     return render_to_response('project_template/index.html', 
                           {'output': output,
                            'magic_url': request.get_full_path(),
+                           'first': first
                            })
