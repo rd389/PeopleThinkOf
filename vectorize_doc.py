@@ -4,40 +4,35 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 import pickle
 
 """
-
+    Returns
+     - list of docs(concat'd) and list of thread_id
 """
 def json_to_docs(data):
     corpus = [None] * len(data)
+    mapping = [None] * len(data)
 
     for idx, thread in enumerate(data):
         corpus[idx] = thread['text'] + " "
+        mapping[idx] = thread['thread_id']
 
         for c in thread['comments']:
             corpus[idx] += c['body'] + " "
 
-    return corpus
+    return corpus, mapping
 
-if not len(sys.argv) == 3:
-    print sys.argv
-    raise Exception("I need exactly two buddy; you gave me: " + str(len(sys.argv)))
+input_file = "threads.json"
+output_file = "vec_threads.pickle"
+with open(input_file, "rb") as handle:
+    data = json.load(handle)
 
-if not sys.argv[1][-5:] == ".json":
-    raise Exception("I need a .json file buddy")
-
-if not sys.argv[2][-7:] == ".pickle":
-    raise Exception("I need a .pickle file buddy")
-
-input_file = sys.argv[1]
-output_file = sys.argv[2]
-f = open(input_file)
-data = json.load(f)
-
-corpus = json_to_docs(data)
+corpus, mapping = json_to_docs(data)
 
 vectorizer = TfidfVectorizer(min_df = 10, max_df = 0.9)
 tfidf_mat = vectorizer.fit_transform(corpus)
 
-to_pickle = {'vectorizer': vectorizer, 'matrix': tfidf_mat}
+to_pickle = {'vectorizer': vectorizer,
+             'matrix': tfidf_mat,
+             'idx_map': mapping}
 
 with open(output_file, "wb") as handle:
     pickle.dump(to_pickle, handle, protocol = pickle.HIGHEST_PROTOCOL)
