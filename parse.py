@@ -1,10 +1,10 @@
 import json
-f = open('data-1000.json')
-data = json.load(f)
+import nltk
+from nltk.sentiment import vader
 
 class Thread(object):
     def __init__(self, thread_id, title, url, category, op, date, nsfw):
-        self.id = thread_id
+        self.thread_id = thread_id
         self.title = title
         self.url = url
         self.category = category
@@ -14,7 +14,7 @@ class Thread(object):
 
 
 class QAPair(object):
-    def __init__(self, thread_id, op, AId, QId, AText, date, category, nsfw):
+    def __init__(self, thread_id, op, AId, QId, AText, date, category, nsfw, sentiment):
         self.op = op
         self.asker = ""
         self.answer_id = AId
@@ -25,6 +25,7 @@ class QAPair(object):
         self.category = category
         self.nsfw = nsfw
         self.date = date
+        self.sentiment = sentiment
 
 def fetch_qa(idx):
     thread = data[idx]
@@ -41,7 +42,8 @@ def fetch_qa(idx):
         if c["author"] == op:
             parent = c["parent_id"][3:]
             need[parent] = c["id"]
-            qa_pairs[c["id"]] = QAPair(thread_id, c["author"], c["id"], parent, c['body'], c['created'], category, nsfw)
+            sentiment = analyzer.polarity_scores(c["body"])
+            qa_pairs[c["id"]] = QAPair(thread_id, c["author"], c["id"], parent, c['body'], c['created'], category, nsfw, sentiment)
             
         #Getting Question
         elif c["id"] in need.keys():
@@ -63,12 +65,17 @@ def createThread(idx):
     return Thread(thread['id'], thread['title'], thread['url'], thread['category'], thread['author'], thread['created'], thread['nsfw'])
  
 def parseData(qa_fileName, threads_fileName):
+	threadSet = set([])
 	qa_pairs = []
 	threads = []
 
 	for i in range(len(data)):
+		if data[i]['id'] not in threadSet:
+			threadSet.add(data[i]['id'])
     		qa_pairs += fetch_qa(i)
     		threads += [createThread(i).__dict__]
+    	else:
+    		print(data[i]['title'])
 
 	with open(qa_fileName, "w") as qa_file:
 		qa_file.write(json.dumps(qa_pairs))
@@ -77,6 +84,13 @@ def parseData(qa_fileName, threads_fileName):
 	with open(threads_fileName, "w") as threads_file:
 		threads_file.write(json.dumps(threads))
 		threads_file.close()
+
+
+if __name__ == '__main__':
+	f = open('data-1000.json')
+	data = json.load(f)
+	analyzer = vader.SentimentIntensityAnalyzer()
+	parseData('qa.json', 'threads.json')
 
 
 
