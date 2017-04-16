@@ -1,14 +1,47 @@
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  font: 'Roboto', 'sans-serif';
+  font-size: 14px;
+}
+
 .topcorner {
   position:absolute;
   top:2%;
   right:2%;
 }
 
-.btn {
-  background-color: #4285F4;
-  border: none
+.wrapper {
+  width: 50%;
+  min-width: 550px;
+  margin: 15vw auto 0 auto;
 }
 
-.step-links a {
-  color: #4285F4;
+input[type=text], input[type=password], input[type=email], input[type=date], input[type=tel], input[type=number], textarea.materialize-textarea {
+  height: 6rem;
+  font-size: 3rem;
+}
+
+.input-field label {
+  font-size: 3rem;
+}
+
+.input-field label.active {
+  font-size: 1.2rem;
+}
+
+.input-field input[type=text]:focus + label {
+  color: #000;
+}
+
+.input-field input[type=text]:focus {
+  border-bottom: 1px solid #000;
+  box-shadow: 0 1px 0 0 #000;
+}
+
+.output h4 {
+  text-align: center;
+  font-size: 18px;
 }

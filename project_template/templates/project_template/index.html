@@ -2,15 +2,13 @@
 <html>
     <head>
         <link type="text/css" rel="stylesheet" href="{% static 'materialize/bin/materialize.css' %}"  media="screen,projection"/>
-        {% block footer %}
+        <link rel="stylesheet" href="/static/main.css?{% now 'U' %}">
+
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="{% static 'materialize/bin/materialize.js' %}"></script>
-        {% endblock %}
-        <link rel="stylesheet" href="/static/main.css?{% now 'U' %}">
     </head>
     
     <body>
-        <!-- TODO: Please change lines 10 and 11 according to your actual project name and student names-->
         <!-- <div class="topcorner">
             <p>Ask Me Anything</p>
             <p>Charles Yu (ccy27)</p>
@@ -29,42 +27,35 @@
                 <form class="col s12" method="GET">
                     <div class="input-field">
                         <input id="input" type="text" name="search">
-                        <label for="input">Ask Us Anything</label>
+                        <label for="input">Ask about anything</label>
                     </div>
                 </form>
             </div>
-        </div>
-        
-        <!-- <form class="form-inline global-search" method='GET'>
-            
-            <div class="form-group">
-                <input id="input" type="text" name="search" class="form-control" placeholder="Your Input">
-            </div>
-            <button type="submit" class="btn btn-info"> Go! </button>
-        </form> -->
-        
-        <div class="form-inline global-search">
-            <h4>Output</h4><br>
-            {% for line in output %}
-                {{line}}<br>
-            {% endfor %}
-            
-            <div class="pagination">
-                <span class="step-links">
-                    {% if output.has_previous %}
-                    <a href= "{{magic_url}}&page={{ output.previous_page_number }}">previous</a>
-                    {% endif %}
-                    
-                    <!-- Showing the page numbers in Html Page -->
-                    <span class="current">
-                    Page _{{ output.number }}_ of _{{ output.paginator.num_pages }}_
+
+            <div class="row output">
+                <h4>Results</h4><br>
+                {% for doc in output %}
+                    {{doc.answer_id}} {{doc.title}}<br>
+                {% endfor %}
+                
+                <div class="pagination">
+                    <span class="step-links">
+                        {% if output.has_previous %}
+                        <a href= "{{magic_url}}&page={{ output.previous_page_number }}">previous</a>
+                        {% endif %}
+                        
+                        <!-- Showing the page numbers in Html Page -->
+                        <span class="current">
+                        Page _{{ output.number }}_ of _{{ output.paginator.num_pages }}_
+                        </span>
+                        
+                        {% if output.has_next %}
+                        <a href= "{{magic_url}}&page={{ output.next_page_number }}">next</a>
+                        {% endif %}
                     </span>
-                    
-                    {% if output.has_next %}
-                    <a href= "{{magic_url}}&page={{ output.next_page_number }}">next</a>
-                    {% endif %}
-                </span>
+                </div>
             </div>
         </div>
+        
     </body>
 </html>
