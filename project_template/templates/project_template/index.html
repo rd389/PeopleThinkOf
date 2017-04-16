@@ -1,41 +1,47 @@
+{% load staticfiles %}
 <html>
     <head>
-        <link rel="stylesheet" href="/static/bootstrap.min.css">
-        <link rel="stylesheet" href="/static/main.css">
+        <link type="text/css" rel="stylesheet" href="{% static 'materialize/bin/materialize.css' %}"  media="screen,projection"/>
+        {% block footer %}
+        <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+        <script type="text/javascript" src="{% static 'materialize/bin/materialize.js' %}"></script>
+        {% endblock %}
+        <link rel="stylesheet" href="/static/main.css?{% now 'U' %}">
     </head>
     
     <body>
         <!-- TODO: Please change lines 10 and 11 according to your actual project name and student names-->
-        <div class="topcorner">
+        <!-- <div class="topcorner">
             <p>Ask Me Anything</p>
             <p>Charles Yu (ccy27)</p>
             <p>Soobin Han (sh767)</p>
             <p>Ritwik Dan (rd389)</p>
             <p>Jenny (Yoon Jae) Kim (yk494)</p>
-        </div>
-        <div>
+        </div> -->
+        <!-- <div>
             {% for doc in sample %}
                 {{doc.answer_id}} {{doc.title}}<br>
             {% endfor %}
+        </div> -->
+
+        <div class="wrapper">
+            <div class="row form-container">
+                <form class="col s12" method="GET">
+                    <div class="input-field">
+                        <input id="input" type="text" name="search">
+                        <label for="input">Ask Us Anything</label>
+                    </div>
+                </form>
+            </div>
         </div>
         
-        <form class="form-inline global-search" method='GET'>
-            <h1 style="font-size: 55px; font-family:Futura; color: #4285F4">
-                C
-                <font color=#EA4335>S</font>
-                <font color=#FBBC05>4</font>
-                3
-                <font color=#34A853>0</font>
-                <font color=#EA4335>0</font>
-            </h1>
-            
-            <br><br>
+        <!-- <form class="form-inline global-search" method='GET'>
             
             <div class="form-group">
                 <input id="input" type="text" name="search" class="form-control" placeholder="Your Input">
             </div>
             <button type="submit" class="btn btn-info"> Go! </button>
-        </form>
+        </form> -->
         
         <div class="form-inline global-search">
             <h4>Output</h4><br>
