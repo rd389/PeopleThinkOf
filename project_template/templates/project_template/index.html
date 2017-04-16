@@ -14,7 +14,9 @@
             <p>Jenny (Yoon Jae) Kim (yk494)</p>
         </div>
         <div>
-            {{ first }}
+            {% for doc in sample %}
+                {{doc.answer_id}} {{doc.title}}<br>
+            {% endfor %}
         </div>
         
         <form class="form-inline global-search" method='GET'>
