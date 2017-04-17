@@ -1,0 +1,106 @@
+.card {
+  position: relative;
+  border: 1px solid #f0f5f9;
+}
+
+.card-header {
+  width: 100%;
+  padding: 10px;
+  border-bottom: 1px solid #c9d6de;
+  font-size: 12px;
+}
+
+.badge {
+  border-radius: 2px;
+  font-weight: bold;
+  font-size: 13px !important;
+}
+
+.badge.cat-badge {
+  position: absolute;
+  right: 12px;
+  top: 8px;
+  padding: 0px 7px;
+  border: 1px solid #c9d6de;
+  background-color: #f0f5f9;
+  color: #52616a;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+.card a, .card a:link, .card a:visited {
+  color: #9bafbb;
+}
+
+.card a:hover {
+  color: #52616a;
+}
+
+.title {
+  max-width: 70%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-body {
+  width: 100%;
+  padding: 15px;
+  color: #52616a;
+}
+
+.question {
+  margin-bottom: 20px;
+}
+
+.badge.q-badge, .badge.a-badge {
+  float: left;
+  width: 88px;
+  margin-right: 10px;
+  padding: 0;
+  color: white;
+}
+
+.q-badge {
+  background-color: #fd999a;
+}
+
+.a-badge {
+  background-color: #7fb4b5;
+}
+
+.author {
+  width: 100%;
+  text-align: right;
+  margin-right: 20%;
+  font-weight: bold;
+  color: #52616a;
+}
+
+.sent {
+  font-weight: bold;
+}
+
+.badge.sent-badge {
+  float: none;
+  text-transform: uppercase;
+  color: #52616a;
+  padding: 2px 10px;
+  margin-left: 5px;
+  font-weight: 500;
+}
+
+.sent-badge.positive {
+  background-color: #e8f5e9;
+  border: 1px solid #c8e6c9;
+}
+
+.sent-badge.negative {
+  background-color: #ffebee;
+  border: 1px solid #ffcdd2;
+}
+
+.sent-badge.neutral {
+  background-color: #f0f5f9;
+  border: 1px solid #c9d6de;
+}

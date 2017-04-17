@@ -22,10 +22,12 @@ html, body {
 input[type=text], input[type=password], input[type=email], input[type=date], input[type=tel], input[type=number], textarea.materialize-textarea {
   height: 6rem;
   font-size: 3rem;
+  border-bottom-color: #9bafbb;
 }
 
 .input-field label {
   font-size: 3rem;
+  color: #9bafbb;
 }
 
 .input-field label.active {
@@ -33,12 +35,12 @@ input[type=text], input[type=password], input[type=email], input[type=date], inp
 }
 
 .input-field input[type=text]:focus + label {
-  color: #000;
+  color: #52616a;
 }
 
 .input-field input[type=text]:focus {
-  border-bottom: 1px solid #000;
-  box-shadow: 0 1px 0 0 #000;
+  border-bottom: 1px solid #52616a;
+  box-shadow: 0 1px 0 0 #52616a;
 }
 
 .output h4 {

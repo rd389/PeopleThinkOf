@@ -8,7 +8,7 @@ SAMPLE = [
   {'thread_id': '4fnlqd', 'answer_id': 'd2agami'},
   {'thread_id': '4fnlqd', 'answer_id': 'd2aiydl'},
   {'thread_id': '2fmrrx', 'answer_id': 'ckavtjm'},
-  {'thread_id': '2rg8q3', 'answer_id': 'cnfkdrf'}
+  {'thread_id': '3zxrf3', 'answer_id': 'cypwepq'}
 ]
 
 def get_qa_info(id_pairs=SAMPLE):
@@ -24,6 +24,19 @@ def get_qa_info(id_pairs=SAMPLE):
   for doc in result:
     doc['title'] = titles[doc['thread_id']]
     doc['url'] = 'https://www.reddit.com/r/IAmA/comments/' + doc['thread_id'] + '/' + doc['question_id']
+
+    if doc['sentiment']['compound'] < -0.5:
+      doc['sent_label'] = 'negative'
+      doc['sent_score'] = doc['sentiment']['neg'] * 100
+
+    elif doc['sentiment']['compound'] > 0.5:
+      doc['sent_label'] = 'positive'
+      doc['sent_score'] = doc['sentiment']['pos'] * 100
+
+    else:
+      doc['sent_label'] = 'neutral'
+      doc['sent_score'] = doc['sentiment']['neu'] * 100
+
 
   return result
 
