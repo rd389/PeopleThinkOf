@@ -8,6 +8,7 @@
   padding: 10px;
   border-bottom: 1px solid #c9d6de;
   font-size: 12px;
+  font-weight: 500;
 }
 
 .badge {
@@ -29,11 +30,11 @@
 }
 
 .card a, .card a:link, .card a:visited {
-  color: #9bafbb;
+  color: #52616a;
 }
 
 .card a:hover {
-  color: #52616a;
+  color: #9bafbb;
 }
 
 .title {
@@ -73,8 +74,8 @@
   width: 100%;
   text-align: right;
   margin-right: 20%;
-  font-weight: bold;
-  color: #52616a;
+  font-weight: 500;
+  color: #9bafbb;
 }
 
 .sent {
