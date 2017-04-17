@@ -13,7 +13,7 @@ def search(query, lim=20):
     mapping = p['mapping']
     q_vec = vectorizer.transform([query])
     results = cos_sim(mat, q_vec)
-    rank = np.argmax(results, axis=1)
+    rank = np.argsort(results, axis=0)
     rank = rank[::-1][:lim]
     results = [mapping[i] for i in rank]
     return results
