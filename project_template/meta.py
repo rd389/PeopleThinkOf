@@ -23,19 +23,28 @@ def get_qa_info(id_pairs=SAMPLE):
 
   for doc in result:
     doc['title'] = titles[doc['thread_id']]
-    doc['url'] = 'https://www.reddit.com/r/IAmA/comments/' + doc['thread_id'] + '/' + doc['question_id']
+
+    # FIXME: need to handle deleted posts, which still have permalinks...
+    if doc['question_id'] == None or len(doc['question_text']) == 0:
+      comment_id = doc['answer_id']
+    else:
+      comment_id = doc['question_id']
+
+    doc['url'] = 'https://www.reddit.com/r/IAmA/comments/' + doc['thread_id'] + '/' + comment_id
+    doc['sent_score'] = round(doc['sentiment']['compound'], 2)
+
+    # TODO: need to add a tooltip or something to explain these scores
+    if doc['sent_score'] > 0:
+      doc['sent_score'] = '+' + str(doc['sent_score'])
 
     if doc['sentiment']['compound'] < -0.5:
       doc['sent_label'] = 'negative'
-      doc['sent_score'] = doc['sentiment']['neg'] * 100
 
     elif doc['sentiment']['compound'] > 0.5:
       doc['sent_label'] = 'positive'
-      doc['sent_score'] = doc['sentiment']['pos'] * 100
 
     else:
       doc['sent_label'] = 'neutral'
-      doc['sent_score'] = doc['sentiment']['neu'] * 100
 
 
   return result
