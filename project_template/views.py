@@ -13,7 +13,7 @@ from .ir import search
 # Create your views here.
 def index(request):
   # output_list = ''
-  # output=''
+  output=''
   sample = get_qa_info()
 
   if request.GET.get('search'):
@@ -22,10 +22,6 @@ def index(request):
     results = [{"thread_id": res[0], "answer_id": res[1]} for res in raw_results]
     print(results)
     output = get_qa_info(results)
-
-    # results = myfunction(query)
-    # output = get_qa_info(results)
-    # output = sample
 
 
     print search
