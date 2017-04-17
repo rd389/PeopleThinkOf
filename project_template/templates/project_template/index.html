@@ -3,6 +3,7 @@
     <head>
         <link type="text/css" rel="stylesheet" href="{% static 'materialize/bin/materialize.css' %}"  media="screen,projection"/>
         <link rel="stylesheet" href="/static/main.css?{% now 'U' %}">
+        <link rel="stylesheet" href="/static/card.css?{% now 'U' %}">
 
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
         <script type="text/javascript" src="{% static 'materialize/bin/materialize.js' %}"></script>
@@ -33,9 +34,35 @@
             </div>
 
             <div class="row output">
-                <h4>Results</h4><br>
+                <!-- <h4>Results</h4><br> -->
                 {% for doc in output %}
-                    {{doc.answer_id}} {{doc.title}}<br>
+                    <div class="col s12 card">
+                        <div class="card-header">
+                            <div class="title">
+                            <a href="{{doc.url}}">{{doc.title}}</a>
+                            </div>
+                            <span class="badge cat-badge">{{doc.category}}</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="question">
+                                <span class="badge q-badge">QUESTION</span>
+                                {{doc.question_text}}
+                                <div class="author"> &mdash; /u/{{doc.asker}}</div>
+                            </div>
+
+                            <div class="answer">
+                                <span class="badge a-badge">ANSWER</span>
+                                {{doc.answer_text}}
+                                <div class="author"> &mdash; /u/{{doc.op}}</div>
+                            </div>
+
+                            <div class="sent">
+                                SENTIMENT: <span class="badge sent-badge {{doc.sent_label}}">{{doc.sent_label}} {{doc.sent_score}}%</span>
+                            </div>
+
+                        </div>
+
+                    </div>
                 {% endfor %}
                 
                 <div class="pagination">
