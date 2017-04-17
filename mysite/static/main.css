@@ -46,4 +46,5 @@ input[type=text], input[type=password], input[type=email], input[type=date], inp
 .output h4 {
   text-align: center;
   font-size: 18px;
+  color: #52616a;
 }

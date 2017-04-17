@@ -21,10 +21,8 @@ def index(request):
     raw_results = search(query, lim = 20) #Current lim = 20
     results = [{"thread_id": res[0], "answer_id": res[1]} for res in raw_results]
     output = get_qa_info(results)
-    results_label = 'Results for "{}" returned the following results: '.format(query)
 
-
-    print search
+    # print search
     # output_list = find_similar(search)
     # paginator = Paginator(output_list, 10)
     # page = request.GET.get('page')
@@ -38,5 +36,6 @@ def index(request):
                         {'output': output,
                          'magic_url': request.get_full_path(),
                          'sample': sample,
-                         'result_label': results_label
+                         'result_label': results_label,
+                         'query': query
                          })
