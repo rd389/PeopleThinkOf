@@ -8,19 +8,24 @@ from .test import find_similar
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .meta import get_qa_info
-# from .ir import myfunction
+from .ir import search
 
 # Create your views here.
 def index(request):
-  output_list = ''
-  output=''
+  # output_list = ''
+  # output=''
   sample = get_qa_info()
 
   if request.GET.get('search'):
     query = request.GET.get('search')
+    raw_results = search(query, lim = 20) #Current lim = 20
+    results = [{"thread_id": res[0], "answer_id": res[1]} for res in raw_results]
+    print(results)
+    output = get_qa_info(results)
+
     # results = myfunction(query)
     # output = get_qa_info(results)
-    output = sample
+    # output = sample
 
 
     print search
