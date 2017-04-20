@@ -25,12 +25,14 @@ def get_qa_info(id_pairs=SAMPLE):
     doc['title'] = titles[doc['thread_id']]
 
     # FIXME: need to handle deleted posts, which still have permalinks...
-    if doc['question_id'] == None or len(doc['question_text']) == 0:
+    if doc['question_id'] == None:
       comment_id = doc['answer_id']
     else:
       comment_id = doc['question_id']
+      if len(doc['question_text']) == 0:
+        print comment_id
 
-    doc['url'] = 'https://www.reddit.com/r/IAmA/comments/' + doc['thread_id'] + '/' + comment_id
+    doc['url'] = 'https://www.reddit.com/r/IAmA/comments/' + doc['thread_id'] + '/_/' + comment_id
     doc['sent_score'] = round(doc['sentiment']['compound'], 2)
 
     # TODO: need to add a tooltip or something to explain these scores
