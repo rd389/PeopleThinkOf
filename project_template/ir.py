@@ -4,10 +4,9 @@ from sklearn.metrics.pairwise import cosine_similarity as cos_sim
 import numpy as np
 import os
 from settings import PROJECT_ROOT
+from project_template import UP_DATA as p
 
 def search(query, lim=20):
-    with open(os.path.join(PROJECT_ROOT, 'qa_vec.pickle'), 'rb') as fp:
-        p = pickle.load(fp)
     vectorizer = p['vectorizer']
     mat = p['matrix']
     mapping = p['mapping']
