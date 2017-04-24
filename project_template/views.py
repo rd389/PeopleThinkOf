@@ -19,7 +19,7 @@ def index(request):
     desc = request.GET.get('desc')
 
     if len(desc.strip()) == 0:
-      desc_str = 'All'
+      desc_str = 'all'
     else:
       desc_str = desc
 
