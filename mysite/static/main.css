@@ -19,14 +19,19 @@ html, body {
   margin: 15vw auto 0 auto;
 }
 
+form {
+  padding: 0;
+}
+
 input[type=text], input[type=password], input[type=email], input[type=date], input[type=tel], input[type=number], textarea.materialize-textarea {
   height: 6rem;
   font-size: 3rem;
-  border-bottom-color: #9bafbb;
+  border-bottom-color: #fff;
 }
 
 .input-field label {
-  font-size: 3rem;
+  font-size: 2.9rem;
+  left: 0.25rem;
   color: #9bafbb;
 }
 
@@ -36,6 +41,29 @@ input[type=text], input[type=password], input[type=email], input[type=date], inp
 
 .input-field input[type=text]:focus + label {
   color: #52616a;
+}
+
+.form-text {
+  font-size: 3rem;
+}
+
+.form-text.inline {
+  display: inline-block;
+}
+
+.input-field.inline {
+  display: inline-block;
+  width: 40%;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.input-field.inline-long {
+  width: 50%;
+}
+
+.input-field input[type=text] {
+  text-align: center;
 }
 
 .input-field input[type=text]:focus {
