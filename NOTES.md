@@ -64,5 +64,10 @@ $ pip install -r requirements.txt
 
 - matrix of thread vectors
 - QA pair to index
- - 
 
+
+## To Do
+
+- add titles to scores
+- add empath
+-

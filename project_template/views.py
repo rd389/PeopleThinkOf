@@ -8,7 +8,8 @@ from .test import find_similar
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .meta import get_qa_info
-from .ir import search, categorized_search
+from .ir import search, categorized_search, search_emp
+
 
 # Create your views here.
 def index(request):
@@ -42,7 +43,8 @@ def index(request):
     #     output = paginator.page(1)
     # except EmptyPage:
     #     output = paginator.page(paginator.num_pages)
-  return render_to_response('project_template/index.html', 
+
+  return render_to_response('project_template/index.html',
                         {'output': output,
                          'magic_url': request.get_full_path(),
                          'result_label': results_label,
