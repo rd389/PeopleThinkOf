@@ -18,7 +18,7 @@ def emp2vec(d):
 
 input_file = "fullText.pickle"
 meta_file = "thread_meta.json"
-output_file = "thread_vec.pickle"
+output_file = "./project_template/thread_vec.pickle"
 with open(input_file, "rb") as handle:
     data = pickle.load(handle)
 
