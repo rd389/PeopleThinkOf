@@ -21,7 +21,7 @@ def index(request):
     raw_results = search(query, lim = 20) #Current lim = 20
     results = [{"thread_id": res[0], "answer_id": res[1]} for res in raw_results]
     output = get_qa_info(results)
-    results_label = '"Showing results for {}" '.format(query)
+    results_label = 'Showing results for "{}" '.format(query)
 
     # print search
 
