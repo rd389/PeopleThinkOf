@@ -1,6 +1,7 @@
 import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity as cos_sim
+<<<<<<< HEAD
 from empath import Empath
 import numpy as np
 import os
@@ -14,6 +15,13 @@ from project_template import MATRIX, CAT_LOOKUP, CAT_TO_IDX, IDX_TO_CAT, LEX
 def emp2vec(d):
     assert len(d) == EMP_LEN
     return [score for score in d.values()]
+=======
+import numpy as np
+import os
+from settings import PROJECT_ROOT
+from project_template import UP_DATA as p
+from project_template import MATRIX, CAT_LOOKUP
+>>>>>>> 51aa5eb43beb3ad994ff22e6206f6078cfb5ad65
 
 def search(query, lim=20):
     vectorizer = p['vectorizer']
@@ -47,6 +55,7 @@ def categorized_search(query, cat, lim=20):
     results = [mapping[int(i)] for i in rank]
 
     return results
+<<<<<<< HEAD
 
 def search_emp(query, cat, lim = 20):
 
@@ -73,3 +82,5 @@ def search_emp(query, cat, lim = 20):
     rank = np.argsort(weighted_results, axis=0)[::-1][:lim]
 
     return [mapping[int(i)] for i in rank]
+=======
+>>>>>>> 51aa5eb43beb3ad994ff22e6206f6078cfb5ad65

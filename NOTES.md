@@ -64,6 +64,7 @@ $ pip install -r requirements.txt
 
 - matrix of thread vectors
 - QA pair to index
+<<<<<<< HEAD
 
 
 ## To Do
@@ -71,3 +72,7 @@ $ pip install -r requirements.txt
 - add titles to scores
 - add empath
 - 
+=======
+ - 
+
+>>>>>>> 51aa5eb43beb3ad994ff22e6206f6078cfb5ad65
