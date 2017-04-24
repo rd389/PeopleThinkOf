@@ -23,7 +23,10 @@ for idx, qa_pair in enumerate(mapping):
 	matrix[category_to_index[cat]][idx] = 1
 
 with open('default_cats_matrix.pickle', 'wb') as handle:
-	pickle.dump(matrix, handle, protocol = pickle.HIGHEST_PROTOCOL)
+
+	to_pickle = {"matrix": matrix, "lookup": category_to_index}
+
+	pickle.dump(to_pickle, handle, protocol = pickle.HIGHEST_PROTOCOL)
 
 with open('default_cats_autocomplete.json', 'wb') as autocompleteObj:
 	to_pickle = {key: "null" for key in unique_cats}
