@@ -15,10 +15,10 @@ qa_idx_to_thread_idx = [] #the ith elt in this list corresponds to thread idx
 for idx, thread in enumerate(threads):
 	thread_to_index[thread['id']] = idx
 	doc_text = """"""
-	doc_text += thread['text']
-	doc_text += thread['title']
+	doc_text += thread['text'] + " "
+	doc_text +=  thread['title'] + " "
 	for c in thread['comments']:
-		doc_text += c['body']
+		doc_text += c['body'] + " "
 	fullDocText += [doc_text]
 
 for idx, qa_pair in enumerate(mapping):
@@ -26,7 +26,7 @@ for idx, qa_pair in enumerate(mapping):
 	qa_idx_to_thread_idx += [thread_to_index[thread_id]]
 
 
-to_pickle = {'fullText': threads,
+to_pickle = {'fullText': fullDocText,
          'qa_to_thread_idx': qa_idx_to_thread_idx}
 
 with open('fullText.pickle', 'wb') as handle:
