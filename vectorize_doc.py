@@ -50,9 +50,7 @@ t2 = time.time()
 
 print("Empath comp time: " + str(t2-t1))
 
-to_pickle = {#'vectorizer': vectorizer,
-             #'matrix': tfidf_mat,
-             'idx_map': mapping,
+to_pickle = {'idx_map': mapping,
              'inv_idx': inv_idx,
              'emp_mat': emp_mat}
 
