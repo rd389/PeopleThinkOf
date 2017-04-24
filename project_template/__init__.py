@@ -1,9 +1,6 @@
 import pymongo, os, pickle
-<<<<<<< HEAD
 import numpy as np
 from empath import Empath
-=======
->>>>>>> 51aa5eb43beb3ad994ff22e6206f6078cfb5ad65
 from settings import PROJECT_ROOT
 
 MONGO_CLIENT = pymongo.MongoClient(os.environ['MONGODB_URI'])

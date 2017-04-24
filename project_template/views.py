@@ -8,11 +8,8 @@ from .test import find_similar
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .meta import get_qa_info
-<<<<<<< HEAD
 from .ir import search, categorized_search, search_emp
-=======
-from .ir import search, categorized_search
->>>>>>> 51aa5eb43beb3ad994ff22e6206f6078cfb5ad65
+
 
 # Create your views here.
 def index(request):
