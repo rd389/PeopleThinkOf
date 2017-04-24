@@ -5,12 +5,17 @@ import numpy as np
 import os
 from settings import PROJECT_ROOT
 from project_template import UP_DATA as p
+from empath import Empath
 
 def search(query, lim=20):
     vectorizer = p['vectorizer']
     mat = p['matrix']
     mapping = p['mapping']
+    emp_map = p['emp_map']
+
     q_vec = vectorizer.transform([query])
+    cats = LEX.analyze(query)
+
     results = cos_sim(mat, q_vec)
     rank = np.argsort(results, axis=0)
     rank = rank[::-1][:lim]
