@@ -19,8 +19,8 @@ def search(query, lim=20):
     return results
 
 
-def categorized_search(query, lim=20, cat):
-	vectorizer = p['vectorizer']
+def categorized_search(query, cat, lim=20):
+    vectorizer = p['vectorizer']
     mat = p['matrix']
     mapping = p['mapping']
     q_vec = vectorizer.transform([query])
@@ -32,4 +32,5 @@ def categorized_search(query, lim=20, cat):
     rank = np.argsort(results, axis=0)
     rank = rank[::-1][:lim]
     results = [mapping[int(i)] for i in rank]
+
     return results

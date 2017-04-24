@@ -1,6 +1,6 @@
 $( document ).ready(function() {
 
-  $('#input').autocomplete({
+  $('#desc').autocomplete({
     data: {
       "fun": null,
       "rich": null,

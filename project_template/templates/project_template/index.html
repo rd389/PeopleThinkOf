@@ -43,9 +43,21 @@
         <div class="wrapper">
             <div class="row form-container">
                 <form class="col s12" method="GET">
-                    <div class="input-field">
-                        <input id="input" class="autocomplete" type="text" name="search">
-                        <label for="input">Ask about anything</label>
+                    <div class="top">
+                        <div class="form-text inline">What do </div>
+                        <div class="input-field inline">
+                            <input id="desc" class="autocomplete" type="text" name="desc">
+                            <label for="desc">[descriptor]</label>
+                        </div>
+                        <div class="form-text inline">people </div>
+                    </div>
+                    <div class="bottom">
+                        <div class="form-text inline">think about</div>
+                        <div class="input-field inline inline-long">
+                            <input onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" id="topic" type="text" name="topic">
+                            <label for="topic">[topic]</label>
+                        </div>
+                        <div class="form-text inline">?</div>
                     </div>
                 </form>
             </div>
