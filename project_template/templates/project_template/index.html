@@ -63,8 +63,9 @@
             </div>
 
             <div class="row output">
-                <h4 class="output-header {{output_header_class}}"> Showing results for "{{result_label}}"</h4><br>
+                <h4 class="output-header {{output_header_class}}"> {{showing_or_no}} results for "{{result_label}}"</h4><br>
                 {% for doc in output %}
+
                     <div class="col s12 card">
                         <div class="card-header">
                             <div class="title">
@@ -93,9 +94,17 @@
 
                     </div>
                 {% endfor %}
-                
+
             </div>
         </div>
+
+        <!-- <footer class="page-footer">
+            <div class="footer-copyright">
+                <div class="container">
+                © 2017&nbsp;&nbsp;Charles Yu (ccy27)&nbsp;&nbsp;|&nbsp;&nbsp;Soobin Han (sh767) &nbsp;&nbsp;|&nbsp;&nbsp;Ritwik Dan (rd389)&nbsp;&nbsp;|&nbsp;&nbsp;Jenny (Yoon Jae) Kim (yk494)
+                </div>
+            </div>
+        </footer> -->
         
     </body>
     <script type="text/javascript" src="/static/main.js?{% now 'U' %}"></script>

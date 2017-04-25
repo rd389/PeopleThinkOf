@@ -15,6 +15,7 @@ def index(request):
   output=''
   results_label = ""
   output_header_class = 'hide'
+  showing_or_no = 'hide'
 
   if request.GET.get('topic'):
     topic = request.GET.get('topic')
@@ -29,14 +30,22 @@ def index(request):
       # raw_results = categorized_search(topic, desc, lim = 20) #Current lim = 20
       raw_results = search_emp(topic, desc, lim=20)
 
-    results = [{"thread_id": res[0], "answer_id": res[1]} for res in raw_results]
-    output = get_qa_info(results)
     results_label = 'What do {} people think about {}?'.format(desc_str, topic)
     output_header_class = 'show'
+
+    if len(raw_results) == 0:
+      showing_or_no = 'No'
+
+    else:
+      results = [{"thread_id": res[0], "answer_id": res[1]} for res in raw_results]
+      output = get_qa_info(results)
+      
+      showing_or_no = 'Showing'
 
   return render_to_response('project_template/index.html', 
                         {'output': output,
                          'magic_url': request.get_full_path(),
                          'result_label': results_label,
-                         'output_header_class': output_header_class
+                         'output_header_class': output_header_class,
+                         'showing_or_no': showing_or_no
                          })
