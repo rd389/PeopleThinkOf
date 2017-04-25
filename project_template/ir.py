@@ -10,6 +10,7 @@ from project_template import UP_DATA as p
 from project_template import EMPATH_MATRIX as emp_mat
 from project_template import MATRIX, CAT_LOOKUP, CAT_TO_IDX, IDX_TO_CAT, LEX
 
+MODEL = 'reddit'
 
 def emp2vec(d):
     assert len(d) == EMP_LEN
@@ -55,6 +56,8 @@ def search_emp(query, cat, lim = 20):
     mat = p['matrix']
     mapping = p['mapping']
     qa2thread = p['qa2thread']
+    expanded_car = LEX.create_category(cat, [cat], model = MODEL)
+
 
     emp_dict = LEX.analyze(cat, normalize=True)
     category = max(emp_dict, key=emp_dict.get)

@@ -69,5 +69,5 @@ $ pip install -r requirements.txt
 ## To Do
 
 - add titles to scores
-- add empath
--
+- stemming on topic to feed to empath
+- bold things in the title by computing synonymity score
