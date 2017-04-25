@@ -63,7 +63,7 @@
             </div>
 
             <div class="row output">
-                <h4> {{result_label}}</h4><br>
+                <h4 class="output-header {{output_header_class}}"> Showing results for "{{result_label}}"</h4><br>
                 {% for doc in output %}
                     <div class="col s12 card">
                         <div class="card-header">
@@ -94,22 +94,6 @@
                     </div>
                 {% endfor %}
                 
-                <div class="pagination">
-                    <span class="step-links">
-                        {% if output.has_previous %}
-                        <a href= "{{magic_url}}&page={{ output.previous_page_number }}">previous</a>
-                        {% endif %}
-                        
-                        <!-- Showing the page numbers in Html Page -->
-                        <span class="current">
-                        Page _{{ output.number }}_ of _{{ output.paginator.num_pages }}_
-                        </span>
-                        
-                        {% if output.has_next %}
-                        <a href= "{{magic_url}}&page={{ output.next_page_number }}">next</a>
-                        {% endif %}
-                    </span>
-                </div>
             </div>
         </div>
         

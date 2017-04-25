@@ -116,8 +116,19 @@ input[type=text], input[type=password], input[type=email], input[type=date], inp
   color: #000;
 }
 
-.output h4 {
+h4.output-header {
+  padding-top: 50px;
+  margin-bottom: 30px;
+  border-top: 1px solid #eee;
   text-align: center;
   font-size: 18px;
   color: #52616a;
+}
+
+.hide {
+  display: none;
+}
+
+.show {
+  display: block;
 }
