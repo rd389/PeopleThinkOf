@@ -73,4 +73,4 @@ def search_emp(query, cat, lim = 20):
     weighted_results = np.multiply(results, expanded_row_vec[:, np.newaxis])
     rank = np.argsort(weighted_results, axis=0)[::-1][:lim]
 
-    return [mapping[int(i)] for i in rank]
+    return [mapping[int(i)] for i in rank if weighted_results[int(i)] > 0.0]
