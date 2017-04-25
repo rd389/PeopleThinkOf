@@ -7,4 +7,5 @@ ama/
 *.json
 !default_cats_autocomplete.json
 4300project/
+mysite/staticfiles/materialize/*
 
