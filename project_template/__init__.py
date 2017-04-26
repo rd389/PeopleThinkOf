@@ -17,6 +17,7 @@ with open(os.path.join(PROJECT_ROOT,"default_cats_matrix.pickle"), "rb") as hand
     matrix_data= pickle.load(handle)
     MATRIX = matrix_data["matrix"]
     CAT_LOOKUP = matrix_data["lookup"]
+    CAT_LOOKUP = []
 
 LEX = Empath()
 IDX_TO_CAT = LEX.analyze("")
