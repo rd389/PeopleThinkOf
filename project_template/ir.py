@@ -34,14 +34,12 @@ def categorized_search(query, cat, lim=20):
     mapping = p['mapping']
     q_vec = vectorizer.transform([query])
     results = cos_sim(mat, q_vec)
-    print('results.shape')
-    print(results.shape)
+
     #NEED TO IMPORT MATRIX & category lookup
     cat_vec = MATRIX[CAT_LOOKUP[cat]]
-    print('cat_vec.shape')
-    print(cat_vec.shape)
+
     results = results[:, 0] * cat_vec
-    print(results.shape)
+
     #may want to define the weighting we will use
     rank = np.argsort(results, axis=0)
     rank = rank[::-1][:lim]
