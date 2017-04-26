@@ -58,6 +58,7 @@ def search_emp(query, cat, lim = 20):
 
     emp_dict = LEX.analyze(cat, normalize=True)
     category = max(emp_dict, key=emp_dict.get)
+    
     if emp_dict[category] == 0:
         print("Category has 0 count.")
     category_idx = CAT_TO_IDX[category]
