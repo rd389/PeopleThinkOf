@@ -22,7 +22,6 @@ output_file = "./project_template/thread_vec.pickle"
 with open(input_file, "rb") as handle:
     data = pickle.load(handle)
 
-<<<<<<< HEAD
 with open(meta_file, "rb") as handle:
     meta = json.load(handle)
 
