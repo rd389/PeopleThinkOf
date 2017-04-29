@@ -1,6 +1,7 @@
 import json
 import sys, time
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction import DictVectorizer
 import pickle, json
 from empath import Empath
 import numpy as np
@@ -10,13 +11,8 @@ import numpy as np
     Returns
      - list of docs(concat'd) and list of thread_id
 """
-EMP_LEN = 194
 
-def emp2vec(d):
-    assert len(d) == EMP_LEN
-    return [score for score in d.values()]
-
-input_file = "fullText.pickle"
+input_file = "./DocPickleTexts/fullText.pickle"
 meta_file = "thread_meta.json"
 output_file = "./project_template/thread_vec.pickle"
 with open(input_file, "rb") as handle:
@@ -29,8 +25,7 @@ with open(meta_file, "rb") as handle:
 N = len(data['fullText'])
 mapping = [None] * N
 inv_idx = {}
-
-emp_mat = np.zeros((N, EMP_LEN))
+emp_dicts = [None] * N
 
 t0 = time.time()
 for idx, thread in enumerate(meta):
@@ -44,15 +39,18 @@ t1 = time.time()
 print("Index mapping time: " + str(t1-t0))
 lex = Empath()
 for i in range(N):
-    emp_mat[i] = emp2vec(lex.analyze(data['fullText'][i]))
-# emp_map = [{k: v for k, v in lex.analyze(d).items() if v > 0} for d in data['fullText']]
+    emp_dicts[i] = lex.analyze(data['fullText'][i])
+
+dvec = DictVectorizer(sparse = False)
+emp_mat = dvec.fit_transform(emp_dicts)
 t2 = time.time()
 
 print("Empath comp time: " + str(t2-t1))
 
 to_pickle = {'idx_map': mapping,
              'inv_idx': inv_idx,
-             'emp_mat': emp_mat}
+             'emp_mat': emp_mat,
+             'dict_vect': dvec}
 
 
 with open(output_file, "wb") as handle:
