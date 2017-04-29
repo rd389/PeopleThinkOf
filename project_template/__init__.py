@@ -21,3 +21,6 @@ with open(os.path.join(PROJECT_ROOT,"default_cats_matrix.pickle"), "rb") as hand
 LEX = Empath()
 IDX_TO_CAT = LEX.analyze("")
 CAT_TO_IDX = {cat: idx for idx, cat in enumerate(IDX_TO_CAT)}
+EMP_LEN = len(IDX_TO_CAT)
+
+print(EMP_LEN)
