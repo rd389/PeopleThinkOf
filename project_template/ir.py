@@ -16,7 +16,7 @@ MODEL = 'reddit'
 def emp2vec(d):
     assert len(d) == EMP_LEN
     emp_vec = [score for score in d.values()]
-    print("================================")   
+    print("================================")
     print(len(emp_vec))
     print("================================")
     return np.array(emp_vec)/sum(emp_vec)
@@ -52,14 +52,12 @@ def categorized_search(query, cat, lim=20):
     mapping = p['mapping']
     q_vec = vectorizer.transform([query])
     results = cos_sim(mat, q_vec)
-    print('results.shape')
-    print(results.shape)
+
     #NEED TO IMPORT MATRIX & category lookup
     cat_vec = MATRIX[CAT_LOOKUP[cat]]
-    print('cat_vec.shape')
-    print(cat_vec.shape)
+
     results = results[:, 0] * cat_vec
-    print(results.shape)
+
     #may want to define the weighting we will use
     rank = np.argsort(results, axis=0)
     rank = rank[::-1][:lim]
@@ -74,6 +72,7 @@ def search_emp(query, cat, lim = 20):
     mapping = p['mapping']
     qa2thread = p['qa2thread']
 
+
     with stdoutIO() as s:
         LEX.create_category(cat, [cat], model = MODEL)
     expanded_cat = s.getvalue()
@@ -85,6 +84,12 @@ def search_emp(query, cat, lim = 20):
     emp_dict = LEX.analyze(concat_exp_cat, normalize=True)
     emp_vec = emp2vec(emp_dict)
     if sum(emp_vec) == 0:
+# =======
+#     emp_dict = LEX.analyze(cat, normalize=True)
+#     category = max(emp_dict, key=emp_dict.get)
+#
+#     if emp_dict[category] == 0:
+# >>>>>>> a9c00494fab856624e749d7630de82e894dddb24
         print("Category has 0 count.")
 
     row_vec = np.zeros(emp_mat.shape[0])

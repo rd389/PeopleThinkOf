@@ -39,6 +39,9 @@ def index(request):
     else:
       results = [{"thread_id": res[0], "answer_id": res[1]} for res in raw_results]
       output = get_qa_info(results)
+      # TEMPORARY FIX: Ignore ones that don't have question_text
+      # (should be fixed in data fetching part)
+      output = [item for item in output if len(item['question_text']) > 0]
       
       showing_or_no = 'Showing'
 
