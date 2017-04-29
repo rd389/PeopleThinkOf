@@ -34,11 +34,6 @@
             <p>Ritwik Dan (rd389)</p>
             <p>Jenny (Yoon Jae) Kim (yk494)</p>
         </div> -->
-        <!-- <div>
-            {% for doc in sample %}
-                {{doc.answer_id}} {{doc.title}}<br>
-            {% endfor %}
-        </div> -->
 
         <div class="wrapper">
             <div class="row form-container">
@@ -46,7 +41,7 @@
                     <div class="top">
                         <div class="form-text inline">What do </div>
                         <div class="input-field inline">
-                            <input id="desc" class="autocomplete" type="text" name="desc" value={{desc_str}}>
+                            <input onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" id="desc" class="autocomplete" type="text" name="desc" value={{desc_str}}>
                             <label for="desc">[descriptor]</label>
                         </div>
                         <div class="form-text inline">people </div>
