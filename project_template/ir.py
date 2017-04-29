@@ -2,6 +2,7 @@ import pickle
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity as cos_sim
 from empath import Empath
+from nltk.corpus import wordnet
 import numpy as np
 import os
 from settings import PROJECT_ROOT
@@ -69,7 +70,11 @@ def search_emp(query, cat, lim = 20):
     with stdoutIO() as s:
         LEX.create_category(cat, [cat], model = MODEL)
     expanded_cat = s.getvalue()
-    expanded_cat = expanded_cat.replace("_", " ").replace("\"", "").replace("\\", "")[1:-1]
+    print("Non expanded cat:" + expanded_cat)
+    expanded_cat = expanded_cat.replace("_", " ").replace("\"", "").replace("\\", "").replace("[", "").replace("]", "")
+    print("Expanded cat: " + expanded_cat)
+
+    syns = wordnet.synsets(cat)
 
     emp_dict = LEX.analyze(expanded_cat)
     print(emp_dict)
