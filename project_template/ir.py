@@ -70,14 +70,14 @@ def search_emp(query, cat, lim = 20):
     with stdoutIO() as s:
         LEX.create_category(cat, [cat], model = MODEL)
     expanded_cat = s.getvalue()
-    print("Non expanded cat:" + expanded_cat)
+    # print("Non expanded cat:" + expanded_cat)
     expanded_cat = expanded_cat.replace("_", " ").replace("\"", "").replace("\\", "").replace("[", "").replace("]", "")
-    print("Expanded cat: " + expanded_cat)
+    # print("Expanded cat: " + expanded_cat)
 
     syns = wordnet.synsets(cat)
 
     emp_dict = LEX.analyze(expanded_cat)
-    print(emp_dict)
+    # print(emp_dict)
     emp_vec = EMP_VECTORIZER.transform(emp_dict)
 
     if np.sum(emp_vec) == 0:
@@ -88,7 +88,7 @@ def search_emp(query, cat, lim = 20):
     #     print("w is: " + str(w))
     #     row_vec += EMPATH_MATRIX[:, cat_idx] * w
     row_vec = np.dot(emp_vec, EMPATH_MATRIX.T).T
-    print(row_vec.shape)
+    # print(row_vec.shape)
 
     expanded_row_vec = np.zeros(mat.shape[0])
     # expanded_row_vec[qa_idx] = row_vec[thread_idx that qa_idx belongs to]
