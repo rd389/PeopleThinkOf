@@ -10,7 +10,9 @@ with open(os.path.join(PROJECT_ROOT,"qa_vec.pickle"), "rb") as handle:
     UP_DATA = pickle.load(handle)
 
 with open(os.path.join(PROJECT_ROOT,"thread_vec.pickle"), "rb") as handle:
-    EMPATH_MATRIX = np.array(pickle.load(handle)['emp_mat'])
+    THREAD_VEC = pickle.load(handle)
+    EMPATH_MATRIX = np.array(THREAD_VEC['emp_mat'])
+    EMP_VECTORIZER = THREAD_VEC['dict_vect']
 
 #LOAD MATRIX DATA HERE
 with open(os.path.join(PROJECT_ROOT,"default_cats_matrix.pickle"), "rb") as handle:
@@ -19,8 +21,5 @@ with open(os.path.join(PROJECT_ROOT,"default_cats_matrix.pickle"), "rb") as hand
     CAT_LOOKUP = matrix_data["lookup"]
 
 LEX = Empath()
-IDX_TO_CAT = LEX.analyze("")
-CAT_TO_IDX = {cat: idx for idx, cat in enumerate(IDX_TO_CAT)}
-EMP_LEN = len(IDX_TO_CAT)
-
-print(EMP_LEN)
+IDX_TO_CAT = EMP_VECTORIZER.get_feature_names()
+CAT_TO_IDX = {cat:idx for idx, cat in enumerate(IDX_TO_CAT)}

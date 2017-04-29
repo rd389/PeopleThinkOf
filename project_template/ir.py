@@ -8,21 +8,14 @@ from settings import PROJECT_ROOT
 import StringIO, contextlib, sys
 
 from project_template import UP_DATA as p
-from project_template import EMPATH_MATRIX as emp_mat
-from project_template import MATRIX, CAT_LOOKUP, CAT_TO_IDX, IDX_TO_CAT, LEX, EMP_LEN
+from project_template import EMPATH_MATRIX
+from project_template import EMP_VECTORIZER
+from project_template import MATRIX, CAT_LOOKUP, CAT_TO_IDX, IDX_TO_CAT, LEX
 
 MODEL = 'reddit'
 
-def emp2vec(d):
-    assert len(d) == EMP_LEN
-    emp_vec = [score for score in d.values()]
-    print("================================")
-    print(len(emp_vec))
-    print("================================")
-    return np.array(emp_vec)/sum(emp_vec)
-
 """
-    Taken from
+    Taken from stackoverflow to catch the output to stdio to my own var
 """
 @contextlib.contextmanager
 def stdoutIO(stdout=None):
@@ -39,6 +32,7 @@ def search(query, lim=20):
     mat = p['matrix']
     mapping = p['mapping']
     q_vec = vectorizer.transform([query])
+
     results = cos_sim(mat, q_vec)
     rank = np.argsort(results, axis=0)
     rank = rank[::-1][:lim]
@@ -72,29 +66,24 @@ def search_emp(query, cat, lim = 20):
     mapping = p['mapping']
     qa2thread = p['qa2thread']
 
-
     with stdoutIO() as s:
         LEX.create_category(cat, [cat], model = MODEL)
     expanded_cat = s.getvalue()
+    expanded_cat = expanded_cat.replace("_", " ").replace("\"", "").replace("\\", "")[1:-1]
 
-    concat_exp_cat = ""
-    for entry in expanded_cat:
-        concat_exp_cat += entry + ", "
+    emp_dict = LEX.analyze(expanded_cat)
+    print(emp_dict)
+    emp_vec = EMP_VECTORIZER.transform(emp_dict)
 
-    emp_dict = LEX.analyze(concat_exp_cat, normalize=True)
-    emp_vec = emp2vec(emp_dict)
-    if sum(emp_vec) == 0:
-# =======
-#     emp_dict = LEX.analyze(cat, normalize=True)
-#     category = max(emp_dict, key=emp_dict.get)
-#
-#     if emp_dict[category] == 0:
-# >>>>>>> a9c00494fab856624e749d7630de82e894dddb24
+    if np.sum(emp_vec) == 0:
         print("Category has 0 count.")
 
-    row_vec = np.zeros(emp_mat.shape[0])
-    for cat_idx, w in enumerate(emp_vec):
-        row_vec += emp_mat[:, cat_idx] * w
+    # row_vec = np.zeros(EMPATH_MATRIX.shape[0])
+    # for cat_idx, w in enumerate(emp_vec):
+    #     print("w is: " + str(w))
+    #     row_vec += EMPATH_MATRIX[:, cat_idx] * w
+    row_vec = np.dot(emp_vec, EMPATH_MATRIX.T).T
+    print(row_vec.shape)
 
     expanded_row_vec = np.zeros(mat.shape[0])
     # expanded_row_vec[qa_idx] = row_vec[thread_idx that qa_idx belongs to]
