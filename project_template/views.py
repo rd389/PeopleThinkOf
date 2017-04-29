@@ -9,13 +9,17 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .meta import get_qa_info
 from .ir import search, categorized_search, search_emp
+from .sent import cat_sents
 
 # Create your views here.
 def index(request):
   output=''
   results_label = ""
-  output_header_class = 'hide'
-  showing_or_no = 'hide'
+  no_results_class = 'hide'
+  subheader_class = 'hide'
+  desc_str = ''
+  topic = ''
+  top_cats_sents = []
 
   if request.GET.get('topic'):
     topic = request.GET.get('topic')
@@ -31,24 +35,36 @@ def index(request):
       raw_results = search_emp(topic, desc, lim=20)
 
     results_label = 'What do {} people think about {}?'.format(desc_str, topic)
-    output_header_class = 'show'
+    no_results_class = 'hide'
+    subheader_class = 'show'
 
     if len(raw_results) == 0:
-      showing_or_no = 'No'
+      no_results_class = 'show'
+      subheader_class = 'hide'
 
     else:
       results = [{"thread_id": res[0], "answer_id": res[1]} for res in raw_results]
+      
+      # fetch meta data from mongo
       output = get_qa_info(results)
+
       # TEMPORARY FIX: Ignore ones that don't have question_text
       # (should be fixed in data fetching part)
       output = [item for item in output if len(item['question_text']) > 0]
+
+      # "Overall" sentiment score for the top 3 reddit categories in the results
+      top_cats_sents = cat_sents(output)[:3]
       
-      showing_or_no = 'Showing'
+      no_results_class = 'hide'
+      subheader_class = 'show'
 
   return render_to_response('project_template/index.html', 
                         {'output': output,
                          'magic_url': request.get_full_path(),
                          'result_label': results_label,
-                         'output_header_class': output_header_class,
-                         'showing_or_no': showing_or_no
+                         'no_results_class': no_results_class,
+                         'subheader_class': subheader_class,
+                         'top_cats_sents': top_cats_sents,
+                         'desc_str': desc_str,
+                         'topic': topic
                          })

@@ -46,7 +46,7 @@
                     <div class="top">
                         <div class="form-text inline">What do </div>
                         <div class="input-field inline">
-                            <input id="desc" class="autocomplete" type="text" name="desc">
+                            <input id="desc" class="autocomplete" type="text" name="desc" value={{desc_str}}>
                             <label for="desc">[descriptor]</label>
                         </div>
                         <div class="form-text inline">people </div>
@@ -54,7 +54,7 @@
                     <div class="bottom">
                         <div class="form-text inline">think about</div>
                         <div class="input-field inline inline-long">
-                            <input onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" id="topic" type="text" name="topic">
+                            <input onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" id="topic" type="text" name="topic" value={{topic}}>
                             <label for="topic">[topic]</label>
                         </div>
                         <div class="form-text inline">?</div>
@@ -62,8 +62,40 @@
                 </form>
             </div>
 
+            <h4 class="no-results {{no_results_class}}"> No results for "{{result_label}}"</h4><br>
+
+            <div class="subheader {{subheader_class}}">
+                Average sentiments for the top 3 relevant Reddit categories
+            </div>
+
+            <div class="row top-cats-scores">
+
+                {% for cat_sent in top_cats_sents %}
+
+                <div class="col s4 card cat-card {{cat_sent.color}}">
+
+                    <div class="card-title">
+                        {{cat_sent.category}}
+                    </div>
+                    <div class="card-body cat-sent-score">
+                        {{cat_sent.sent_score}}
+                    </div>
+
+
+                </div>
+
+                {% endfor %}
+
+
+            </div>
+
+            <div class="subheader {{subheader_class}}">
+                Relevant /r/IAMA question-answer pairs
+            </div>
+
             <div class="row output">
-                <h4 class="output-header {{output_header_class}}"> {{showing_or_no}} results for "{{result_label}}"</h4><br>
+
+
                 {% for doc in output %}
 
                     <div class="col s12 card">

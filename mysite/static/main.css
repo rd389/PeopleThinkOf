@@ -21,6 +21,10 @@ html, body {
   padding-top: 15vw;
 }
 
+.form-container {
+  border-bottom: 1px solid #eee;
+}
+
 form {
   padding: 0;
 }
@@ -118,13 +122,29 @@ input[type=text], input[type=password], input[type=email], input[type=date], inp
   color: #000;
 }
 
-h4.output-header {
+
+.row.top-cats-scores {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 65px;
+}
+
+.subheader {
+  margin-top: 30px;
+  margin-bottom: 35px;
+  color: #8d9da7;
+  font-weight: 300;
+  font-size: 21px;
+  text-align: center;
+}
+
+h4.no-results{
   padding-top: 50px;
   margin-bottom: 30px;
-  border-top: 1px solid #eee;
+  color: #8d9da7;
+  font-weight: 300;
+  font-size: 21px;
   text-align: center;
-  font-size: 18px;
-  color: #52616a;
 }
 
 .hide {
