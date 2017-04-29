@@ -25,7 +25,7 @@ def index(request):
     topic = request.GET.get('topic')
     desc = request.GET.get('desc')
 
-    if desc.strip() == '':
+    if desc.strip() == '' or desc.strip() == 'all':
       desc_str = 'all'
       raw_results = search(topic, lim = 20)
 
@@ -33,6 +33,8 @@ def index(request):
       desc_str = desc
       # raw_results = categorized_search(topic, desc, lim = 20) #Current lim = 20
       raw_results = search_emp(topic, desc, lim=20)
+
+    #process raw results
 
     results_label = 'What do {} people think about {}?'.format(desc_str, topic)
     no_results_class = 'hide'
@@ -44,7 +46,7 @@ def index(request):
 
     else:
       results = [{"thread_id": res[0], "answer_id": res[1]} for res in raw_results]
-      
+
       # fetch meta data from mongo
       output = get_qa_info(results)
 
@@ -54,11 +56,11 @@ def index(request):
 
       # "Overall" sentiment score for the top 3 reddit categories in the results
       top_cats_sents = cat_sents(output)[:3]
-      
+
       no_results_class = 'hide'
       subheader_class = 'show'
 
-  return render_to_response('project_template/index.html', 
+  return render_to_response('project_template/index.html',
                         {'output': output,
                          'magic_url': request.get_full_path(),
                          'result_label': results_label,

@@ -35,6 +35,8 @@ def search(query, lim=20):
     q_vec = vectorizer.transform([query])
 
     results = cos_sim(mat, q_vec)
+    if np.amax(results) <= 0.0:
+        return []
     rank = np.argsort(results, axis=0)
     rank = rank[::-1][:lim]
     results = [mapping[int(i)] for i in rank]
@@ -97,7 +99,10 @@ def search_emp(query, cat, lim = 20):
 
     q_vec = vectorizer.transform([query])
     results = cos_sim(mat, q_vec)
-    weighted_results = np.multiply(results, expanded_row_vec[:, np.newaxis])
-    rank = np.argsort(weighted_results, axis=0)[::-1][:lim]
+    weighted_results = np.multiply(results, expanded_row_vec[:, np.newaxis]) #Scores
+    if np.amax(weighted_results) <= 0.0:
+        return []
+
+    rank = np.argsort(weighted_results, axis=0)[::-1][:lim] #Indices
 
     return [mapping[int(i)] for i in rank]
