@@ -1,6 +1,8 @@
+{% load analytical %}
 {% load staticfiles %}
 <html>
     <head>
+        {% analytical_head_top %}
         <link type="text/css" rel="stylesheet" href="{% static 'materialize/bin/materialize.css' %}"  media="screen,projection"/>
         <link rel="stylesheet" href="/static/main.css?{% now 'U' %}">
         <link rel="stylesheet" href="/static/card.css?{% now 'U' %}">
@@ -10,23 +12,22 @@
         <!-- <script type="text/javascript" src="{% static 'materialize/bin/materialize.js' %}"></script> -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
 
-
-        <!-- FIXME: use https://github.com/praekelt/django-google-analytics
-
-        <script>
+        <!-- <script>
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-          ga('create', 'UA-91640389-2', 'auto');
+          ga('create', 'UA-91640389-2', 'peoplethinkof.herokuapp.com');
           ga('send', 'pageview');
 
-        </script>
-        -->
+        </script> -->
+        {% analytical_head_bottom %}
+       
     </head>
     
     <body>
+        {% analytical_body_top %}
         <!-- <div class="topcorner">
             <p>Ask Me Anything</p>
             <p>Charles Yu (ccy27)</p>
@@ -145,7 +146,7 @@
                 </div>
             </div>
         </footer> -->
-        
+        {% analytical_body_bottom %}
     </body>
     <script type="text/javascript" src="/static/main.js?{% now 'U' %}"></script>
 </html>

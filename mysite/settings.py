@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'materialize'
+    'materialize',
+    'analytical'
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -53,6 +54,9 @@ MIDDLEWARE_CLASSES = [
 
 ROOT_URLCONF = 'mysite.urls'
 
+GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-91640389-2'
+GOOGLE_ANALYTICS_DOMAIN = 'peoplethinkof.herokuapp.com'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -64,6 +68,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 'mysite.context_processors.google_analytics'
             ],
         },
     },
