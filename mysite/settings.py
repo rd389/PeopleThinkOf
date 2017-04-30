@@ -56,6 +56,7 @@ ROOT_URLCONF = 'mysite.urls'
 
 GOOGLE_ANALYTICS_PROPERTY_ID = 'UA-91640389-2'
 GOOGLE_ANALYTICS_DOMAIN = 'peoplethinkof.herokuapp.com'
+CLICKY_SITE_ID = '101042879'
 
 TEMPLATES = [
     {
