@@ -59,6 +59,8 @@ def index(request):
       no_results_class = 'hide'
       subheader_class = 'show'
 
+    print topic
+
   return render_to_response('project_template/index.html',
                         {'output': output,
                          'magic_url': request.get_full_path(),
