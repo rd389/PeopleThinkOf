@@ -138,13 +138,27 @@ input[type=text], input[type=password], input[type=email], input[type=date], inp
   text-align: center;
 }
 
-h4.no-results{
+.no-results-container {
+  text-align: center;
+}
+
+h4.no-results {
   padding-top: 50px;
   margin-bottom: 30px;
   color: #8d9da7;
   font-weight: 300;
   font-size: 21px;
   text-align: center;
+}
+
+.no-results-container p {
+  color: #8d9da7;
+  font-weight: 300;
+  font-size: 15px;
+}
+
+.french-girl-soobin {
+  max-width: 470px;
 }
 
 .hide {
