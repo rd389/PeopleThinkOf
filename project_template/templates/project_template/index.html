@@ -1,43 +1,40 @@
+{% load analytical %}
 {% load staticfiles %}
 <html>
     <head>
-        <link type="text/css" rel="stylesheet" href="{% static 'materialize/bin/materialize.css' %}"  media="screen,projection"/>
-        <link rel="stylesheet" href="/static/main.css?{% now 'U' %}">
-        <link rel="stylesheet" href="/static/card.css?{% now 'U' %}">
+        {% analytical_head_top %}
+        <link type="text/css" rel="stylesheet" href="{% static 'materialize/bin/materialize.css' %}"  media="screen,projection" />
+        <link rel="stylesheet" href="/static/main.css?{% now 'U' %}" />
+        <link rel="stylesheet" href="/static/card.css?{% now 'U' %}" />
+        <link rel="shortcut icon" href="/static/favicon.png" />
         <!-- <script type="text/javascript" src="/static/default_cats_autocomplete.json"></script> -->
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
         <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script> -->
         <!-- <script type="text/javascript" src="{% static 'materialize/bin/materialize.js' %}"></script> -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
 
-
-        <!-- FIXME: use https://github.com/praekelt/django-google-analytics
-
-        <script>
+        <!-- <script>
           (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-          ga('create', 'UA-91640389-2', 'auto');
+          ga('create', 'UA-91640389-2', 'peoplethinkof.herokuapp.com');
           ga('send', 'pageview');
 
-        </script>
-        -->
+        </script> -->
+        {% analytical_head_bottom %}
+       
     </head>
     
     <body>
+        {% analytical_body_top %}
         <!-- <div class="topcorner">
             <p>Ask Me Anything</p>
             <p>Charles Yu (ccy27)</p>
             <p>Soobin Han (sh767)</p>
             <p>Ritwik Dan (rd389)</p>
             <p>Jenny (Yoon Jae) Kim (yk494)</p>
-        </div> -->
-        <!-- <div>
-            {% for doc in sample %}
-                {{doc.answer_id}} {{doc.title}}<br>
-            {% endfor %}
         </div> -->
 
         <div class="wrapper">
@@ -46,15 +43,15 @@
                     <div class="top">
                         <div class="form-text inline">What do </div>
                         <div class="input-field inline">
-                            <input id="desc" class="autocomplete" type="text" name="desc">
+                            <input onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" id="desc" class="autocomplete" type="text" name="desc" value="{{desc_str}}">
                             <label for="desc">[descriptor]</label>
                         </div>
                         <div class="form-text inline">people </div>
                     </div>
                     <div class="bottom">
-                        <div class="form-text inline">think about</div>
+                        <div class="form-text inline">think of</div>
                         <div class="input-field inline inline-long">
-                            <input onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" id="topic" type="text" name="topic">
+                            <input onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" id="topic" type="text" name="topic" value="{{topic}}">
                             <label for="topic">[topic]</label>
                         </div>
                         <div class="form-text inline">?</div>
@@ -62,8 +59,46 @@
                 </form>
             </div>
 
+            <div class="no-results-container {{no_results_class}}">
+                <h4 class="no-results {{no_results_class}}"> No results for "{{result_label}}"</h4>
+
+                <p> But enjoy this meme instead.</p><br>
+
+                <img class="french-girl-soobin" src="/static/frenchgirlsoobin.jpeg" alt="frenchgirlsoobin" />
+            </div>
+
+            <div class="subheader {{subheader_class}}">
+                Average sentiments for the most relevant Reddit categories
+            </div>
+
+            <div class="row top-cats-scores">
+
+                {% for cat_sent in top_cats_sents %}
+
+                <div class="col s4 card cat-card {{cat_sent.color}}">
+
+                    <div class="card-title">
+                        {{cat_sent.category}}
+                    </div>
+                    <div class="card-body cat-sent-score">
+                        {{cat_sent.sent_score}}
+                    </div>
+
+
+                </div>
+
+                {% endfor %}
+
+
+            </div>
+
+            <div class="subheader {{subheader_class}}">
+                Relevant /r/IAMA question-answer pairs
+            </div>
+
             <div class="row output">
-                <h4 class="output-header {{output_header_class}}"> {{showing_or_no}} results for "{{result_label}}"</h4><br>
+
+
                 {% for doc in output %}
 
                     <div class="col s12 card">
@@ -74,16 +109,23 @@
                             <span class="badge cat-badge">{{doc.category}}</span>
                         </div>
                         <div class="card-body">
-                            <div class="question">
-                                <span class="badge q-badge">QUESTION</span>
-                                {{doc.question_text}}
-                                <div class="author"> &mdash; /u/{{doc.asker}}</div>
+                            {% if doc.nsfw %}
+                            <div class="nsfw-overlay">
+                                This result is NSFW. Hover to view.
                             </div>
+                            {% endif %}
+                            <div class="{% if doc.nsfw %}nsfw{% endif %}">
+                                <div class="question">
+                                    <span class="badge q-badge">QUESTION</span>
+                                    {{doc.question_text}}
+                                    <div class="author"> &mdash; /u/{{doc.asker}}</div>
+                                </div>
 
-                            <div class="answer">
-                                <span class="badge a-badge">ANSWER</span>
-                                {{doc.answer_text}}
-                                <div class="author"> &mdash; /u/{{doc.op}}</div>
+                                <div class="answer">
+                                    <span class="badge a-badge">ANSWER</span>
+                                    {{doc.answer_text}}
+                                    <div class="author"> &mdash; /u/{{doc.op}}</div>
+                                </div>
                             </div>
 
                             <div class="sent">
@@ -105,7 +147,7 @@
                 </div>
             </div>
         </footer> -->
-        
+        {% analytical_body_bottom %}
     </body>
     <script type="text/javascript" src="/static/main.js?{% now 'U' %}"></script>
 </html>
