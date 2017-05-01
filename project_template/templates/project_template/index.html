@@ -7,22 +7,8 @@
         <link rel="stylesheet" href="/static/main.css?{% now 'U' %}" />
         <link rel="stylesheet" href="/static/card.css?{% now 'U' %}" />
         <link rel="shortcut icon" href="/static/favicon.png" />
-        <!-- <script type="text/javascript" src="/static/default_cats_autocomplete.json"></script> -->
         <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-        <!-- <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script> -->
-        <!-- <script type="text/javascript" src="{% static 'materialize/bin/materialize.js' %}"></script> -->
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.98.2/js/materialize.min.js"></script>
-
-        <!-- <script>
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-          ga('create', 'UA-91640389-2', 'peoplethinkof.herokuapp.com');
-          ga('send', 'pageview');
-
-        </script> -->
         {% analytical_head_bottom %}
        
     </head>
@@ -140,13 +126,13 @@
             </div>
         </div>
 
-        <!-- <footer class="page-footer">
-            <div class="footer-copyright">
-                <div class="container">
-                © 2017&nbsp;&nbsp;Charles Yu (ccy27)&nbsp;&nbsp;|&nbsp;&nbsp;Soobin Han (sh767) &nbsp;&nbsp;|&nbsp;&nbsp;Ritwik Dan (rd389)&nbsp;&nbsp;|&nbsp;&nbsp;Jenny (Yoon Jae) Kim (yk494)
-                </div>
-            </div>
-        </footer> -->
+        <div class="git-container">
+            <a href="https://github.com/soobinhan/cs4300sp2017-askmeanything" target="_blank" class="git-link">
+                <span class="git-text">Visit us on Github</span>
+                <img class="git-img" src="/static/github.png" img="github" />
+            </a>
+        </div>
+
         {% analytical_body_bottom %}
     </body>
     <script type="text/javascript" src="/static/main.js?{% now 'U' %}"></script>
