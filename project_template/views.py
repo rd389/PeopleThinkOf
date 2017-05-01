@@ -9,6 +9,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .meta import get_qa_info
 from .ir import search, search_emp
+from .sent import cat_sents
 
 
 # Create your views here.
