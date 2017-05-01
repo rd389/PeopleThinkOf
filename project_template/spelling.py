@@ -1,11 +1,15 @@
 import re
+import pickle
 from collections import Counter
 from os.path import join as path_join
 from project_template import PROJECT_ROOT
 
+
 def words(text): return re.findall(r'\w+', text.lower())
 
-WORDS = Counter(words(open(path_join(PROJECT_ROOT,'big.txt')).read()))
+# WORDS = Counter(words(open(path_join(PROJECT_ROOT,'big.txt')).read()))
+with open(path_join(PROJECT_ROOT,'words.pickle')) as handle:
+    WORDS = pickle.load(handle)
 
 def P(word, N=sum(WORDS.values())):
     "Probability of `word`."
