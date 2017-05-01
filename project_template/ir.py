@@ -16,8 +16,8 @@ from project_template import MATRIX, CAT_LOOKUP, CAT_TO_IDX, IDX_TO_CAT, LEX
 from project_template import spelling
 
 MODEL = 'reddit'
-USE_WORDNET = 1
-MUL = 0
+USE_WORDNET = 0
+MUL = 1
 
 """
     Taken from stackoverflow to catch the output to stdio to my own var
@@ -74,6 +74,44 @@ def find_syns(word):
     print(synonyms)
     return synonyms
 
+def search_emp_1(query, cat, lim = 20):
+
+    vectorizer = p['vectorizer']
+    mat = p['matrix']
+    mapping = p['mapping']
+    qa2thread = p['qa2thread']
+
+    with stdoutIO() as s:
+        LEX.create_category(cat, [cat], model = MODEL)
+    expanded_cat = s.getvalue()
+    expanded_cat = expanded_cat.replace("_", " ").replace("\"", "").replace("\\", "").replace("[", "").replace("]", "")
+
+    syns = wordnet.synsets(cat)
+
+    emp_dict = LEX.analyze(expanded_cat)
+    emp_vec = EMP_VECTORIZER.transform(emp_dict)
+
+    if np.sum(emp_vec) == 0:
+        print("Category has 0 count.")
+
+    row_vec = np.dot(emp_vec, EMPATH_MATRIX.T).T
+
+
+    expanded_row_vec = np.zeros(mat.shape[0])
+    # expanded_row_vec[qa_idx] = row_vec[thread_idx that qa_idx belongs to]
+    for qa_idx in range(mat.shape[0]):
+        expanded_row_vec[qa_idx] = row_vec[qa2thread[qa_idx]]
+
+    q_vec = vectorizer.transform([query])
+    results = cos_sim(mat, q_vec)
+    weighted_results = np.multiply(results, expanded_row_vec[:, np.newaxis]) #Scores
+    if np.amax(weighted_results) <= 0.0:
+        return []
+
+    rank = np.argsort(weighted_results, axis=0)[::-1][:lim] #Indices
+
+    return [mapping[int(i)] for i in rank]
+
 def search_emp(query, cat, lim = 20):
 
     vectorizer = p['vectorizer']
@@ -105,7 +143,7 @@ def search_emp(query, cat, lim = 20):
 
         emp_dict = LEX.analyze(expanded_cat)
         emp_vec = EMP_VECTORIZER.transform(emp_dict)
-
+        # row_vec = np.dot(emp_vec, EMPATH_MATRIX.T).T
         row_vec = np.dot(emp_vec/np.sqrt(emp_vec.dot(emp_vec.T)), EMPATH_MATRIX.T).T
 
     if np.sum(row_vec) == 0:
@@ -118,7 +156,9 @@ def search_emp(query, cat, lim = 20):
         expanded_row_vec[qa_idx] = row_vec[qa2thread[qa_idx]]
 
     q_vec = vectorizer.transform([query])
-    results = normalize(cos_sim(mat, q_vec))
+    # results = normalize(cos_sim(mat, q_vec))
+    results = cos_sim(mat, q_vec)
+    print(results.shape)
 
     if MUL:
         weighted_results = np.multiply(results, expanded_row_vec[:, np.newaxis]) #Scores
