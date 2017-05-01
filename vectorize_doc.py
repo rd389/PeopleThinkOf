@@ -14,6 +14,7 @@ import numpy as np
 
 input_file = "./DocPickleTexts/fullText.pickle"
 meta_file = "thread_meta.json"
+optext_file = "./DocPickleTexts/allOPDocText.pickle"
 output_file = "./project_template/thread_vec.pickle"
 with open(input_file, "rb") as handle:
     data = pickle.load(handle)
@@ -21,8 +22,12 @@ with open(input_file, "rb") as handle:
 with open(meta_file, "rb") as handle:
     meta = json.load(handle)
 
-# corpus = [None] * len(data)
+with open(optext_file, "rb") as handle:
+    optext = pickle.load(handle)
+
 N = len(data['fullText'])
+assert len(optext['text']) == N
+
 mapping = [None] * N
 inv_idx = {}
 emp_dicts = [None] * N
@@ -32,8 +37,8 @@ for idx, thread in enumerate(meta):
     mapping[idx] = thread['thread_id']
     inv_idx[thread['thread_id']] = idx
 
-# vectorizer = TfidfVectorizer(min_df = 10, max_df = 0.9)
-# tfidf_mat = vectorizer.fit_transform(corpus)
+vectorizer = TfidfVectorizer(min_df = 10, max_df = 0.9)
+tfidf_mat = vectorizer.fit_transform(optext['text'])
 
 t1 = time.time()
 print("Index mapping time: " + str(t1-t0))
@@ -50,7 +55,9 @@ print("Empath comp time: " + str(t2-t1))
 to_pickle = {'idx_map': mapping,
              'inv_idx': inv_idx,
              'emp_mat': emp_mat,
-             'dict_vect': dvec}
+             'dict_vect': dvec,
+             'tfidf_mat': tfidf_mat,
+             'tfidf_vectorizer': vectorizer}
 
 
 with open(output_file, "wb") as handle:
