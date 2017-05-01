@@ -16,7 +16,7 @@ from project_template import MATRIX, CAT_LOOKUP, CAT_TO_IDX, IDX_TO_CAT, LEX
 from project_template import spelling
 
 MODEL = 'reddit'
-USE_WORDNET = 1
+USE_WORDNET = 0
 MUL = 0
 
 """
@@ -101,12 +101,13 @@ def search_emp(query, cat, lim = 20):
 
     else:
         # Expand category with create_category
-        with stdoutIO() as s:
-            LEX.create_category(cat, [cat], model = MODEL)
-        expanded_cat = s.getvalue()
-        print("Non expanded cat:" + expanded_cat)
-        expanded_cat = expanded_cat.replace("_", " ").replace("\"", "").replace("\\", "").replace("[", "").replace("]", "")
-        print("Expanded cat: " + expanded_cat)
+        expanded_cat = cat #could add spelling correction here
+        # with stdoutIO() as s:
+        #     LEX.create_category(cat, [cat], model = MODEL)
+        # expanded_cat = s.getvalue()
+        # print("Non expanded cat:" + expanded_cat)
+        # expanded_cat = expanded_cat.replace("_", " ").replace("\"", "").replace("\\", "").replace("[", "").replace("]", "")
+        # print("Expanded cat: " + expanded_cat)
 
         emp_dict = LEX.analyze(expanded_cat)
         emp_vec = EMP_VECTORIZER.transform(emp_dict)
