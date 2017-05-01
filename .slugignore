@@ -11,3 +11,4 @@ dups.js
 data.json
 default_cats_autocomplete.json
 *.zip
+doc_pickle_texts/*
