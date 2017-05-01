@@ -13,6 +13,7 @@ from project_template import UP_DATA as p
 from project_template import EMPATH_MATRIX, EMP_VECTORIZER
 from project_template import DOC_TFIDF_MAT, DOC_TFIDF_VECTORIZER
 from project_template import MATRIX, CAT_LOOKUP, CAT_TO_IDX, IDX_TO_CAT, LEX
+from project_template import spelling
 
 MODEL = 'reddit'
 USE_WORDNET = 1
@@ -65,6 +66,14 @@ def categorized_search(query, cat, lim=20):
 
     return results
 
+def find_syns(word):
+    synonyms = ""
+    for syn in wordnet.synsets(word):
+        for l in syn.lemmas():
+            synonyms += l.name() + ", "
+    print(synonyms)
+    return synonyms
+
 def search_emp(query, cat, lim = 20):
 
     vectorizer = p['vectorizer']
@@ -75,17 +84,15 @@ def search_emp(query, cat, lim = 20):
     ## Use empath analyze to get category analysis on expanded category
     if USE_WORDNET:
         # Gather synonyms
-        synonyms = ""
-        for syn in wordnet.synsets(cat):
-            for l in syn.lemmas():
-                synonyms += l.name() + ", "
+        synonyms = find_syns(cat)
+        if synonyms == "":
+            print("no synonyms")
+            cat = spelling.correction(cat)
+            synonyms = find_syns(cat)
 
-        print(synonyms)
         cat_vec = normalize(DOC_TFIDF_VECTORIZER.transform([synonyms]))
-
         # multiply by normalized vector
         row_vec = cat_vec.dot(DOC_TFIDF_MAT.T).T.toarray().flatten()
-
 
     else:
         # Expand category with create_category
@@ -118,8 +125,9 @@ def search_emp(query, cat, lim = 20):
     else:
         weighted_results = results + expanded_row_vec[:, np.newaxis] #Scores
 
-    if np.amax(weighted_results) <= 0.0:
-        return []
+    # if np.amax(weighted_results) <= 0.0:
+    #     print("no result damnit")
+    #     return []
 
     rank = np.argsort(weighted_results, axis=0)[::-1][:lim] #Indices
 

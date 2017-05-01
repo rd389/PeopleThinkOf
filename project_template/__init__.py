@@ -2,6 +2,7 @@ import pymongo, os, pickle
 import numpy as np
 from empath import Empath
 from settings import PROJECT_ROOT
+import spelling
 
 MONGO_CLIENT = pymongo.MongoClient(os.environ['MONGODB_URI'])
 DB = MONGO_CLIENT[os.environ['MONGODB_DB_NAME']]
