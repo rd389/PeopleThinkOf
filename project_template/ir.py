@@ -90,6 +90,11 @@ def search_emp(query, cat, lim = 20):
             cat = spelling.correction(cat)
             synonyms = find_syns(cat)
 
+            if synonyms == "":
+                return [], None
+            else:
+                return [], cat
+
         cat_vec = normalize(DOC_TFIDF_VECTORIZER.transform([synonyms]))
         # multiply by normalized vector
         row_vec = cat_vec.dot(DOC_TFIDF_MAT.T).T.toarray().flatten()
@@ -125,10 +130,10 @@ def search_emp(query, cat, lim = 20):
     else:
         weighted_results = results + expanded_row_vec[:, np.newaxis] #Scores
 
-    # if np.amax(weighted_results) <= 0.0:
-    #     print("no result damnit")
-    #     return []
+    if np.amax(weighted_results) <= 0.0:
+        print("no result damnit")
+        return [], None
 
     rank = np.argsort(weighted_results, axis=0)[::-1][:lim] #Indices
 
-    return [mapping[int(i)] for i in rank]
+    return [mapping[int(i)] for i in rank], None

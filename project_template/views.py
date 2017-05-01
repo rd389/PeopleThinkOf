@@ -21,6 +21,8 @@ def index(request):
   topic = ''
   result_label = ''
   top_cats_sents = []
+  corr_desc = None
+  corr_query = ''
 
   if request.GET.get('topic'):
     topic = request.GET.get('topic')
@@ -33,7 +35,10 @@ def index(request):
     else:
       desc_str = desc
       # raw_results = categorized_search(topic, desc, lim = 20) #Current lim = 20
-      raw_results = search_emp(topic, desc, lim=20)
+      raw_results, corr_desc = search_emp(topic, desc, lim=20)
+
+    if corr_desc is not None:
+      corr_query = 'What do {} people think about {}?'.format(corr_desc, topic)
 
     result_label = 'What do {} people think about {}?'.format(desc_str, topic)
 
@@ -70,5 +75,7 @@ def index(request):
                          'top_cats_sents': top_cats_sents,
                          'desc_str': desc_str,
                          'topic': topic,
-                         'result_label': result_label
+                         'result_label': result_label,
+                         'corr_query': corr_query,
+                         'corr_desc': corr_desc
                          })
