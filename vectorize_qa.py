@@ -28,8 +28,7 @@ t2 = time.time()
 
 print("Compilation time: " + str(t2-t1))
 
-
-vectorizer = TfidfVectorizer(min_df = 10, max_df = 0.9, ngram_range = (1, 2))
+vectorizer = TfidfVectorizer(min_df = 10, max_df = 0.9)
 tfidf_mat = vectorizer.fit_transform(qa_list)
 
 to_pickle = {'vectorizer': vectorizer,
