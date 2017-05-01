@@ -112,6 +112,7 @@ def search_emp(query, cat, lim = 20):
 
     q_vec = vectorizer.transform([query])
     results = normalize(cos_sim(mat, q_vec))
+
     if MUL:
         weighted_results = np.multiply(results, expanded_row_vec[:, np.newaxis]) #Scores
     else:

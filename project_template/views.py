@@ -8,24 +8,25 @@ from .test import find_similar
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .meta import get_qa_info
-from .ir import search, categorized_search, search_emp
+from .ir import search, search_emp
 from .sent import cat_sents
+
 
 # Create your views here.
 def index(request):
   output=''
-  results_label = ""
   no_results_class = 'hide'
   subheader_class = 'hide'
   desc_str = ''
   topic = ''
+  result_label = ''
   top_cats_sents = []
 
   if request.GET.get('topic'):
     topic = request.GET.get('topic')
     desc = request.GET.get('desc')
 
-    if desc.strip() == '' or desc.strip() == 'all':
+    if desc.strip() == '' or desc.strip().lower() == 'all':
       desc_str = 'all'
       raw_results = search(topic, lim = 20)
 
@@ -34,9 +35,8 @@ def index(request):
       # raw_results = categorized_search(topic, desc, lim = 20) #Current lim = 20
       raw_results = search_emp(topic, desc, lim=20)
 
-    #process raw results
+    result_label = 'What do {} people think about {}?'.format(desc_str, topic)
 
-    results_label = 'What do {} people think about {}?'.format(desc_str, topic)
     no_results_class = 'hide'
     subheader_class = 'show'
 
@@ -60,13 +60,15 @@ def index(request):
       no_results_class = 'hide'
       subheader_class = 'show'
 
+    print topic
+
   return render_to_response('project_template/index.html',
                         {'output': output,
                          'magic_url': request.get_full_path(),
-                         'result_label': results_label,
                          'no_results_class': no_results_class,
                          'subheader_class': subheader_class,
                          'top_cats_sents': top_cats_sents,
                          'desc_str': desc_str,
-                         'topic': topic
+                         'topic': topic,
+                         'result_label': result_label
                          })

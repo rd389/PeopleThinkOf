@@ -138,13 +138,27 @@ input[type=text], input[type=password], input[type=email], input[type=date], inp
   text-align: center;
 }
 
-h4.no-results{
+.no-results-container {
+  text-align: center;
+}
+
+h4.no-results {
   padding-top: 50px;
   margin-bottom: 30px;
   color: #8d9da7;
   font-weight: 300;
   font-size: 21px;
   text-align: center;
+}
+
+.no-results-container p {
+  color: #8d9da7;
+  font-weight: 300;
+  font-size: 15px;
+}
+
+.french-girl-soobin {
+  max-width: 470px;
 }
 
 .hide {
@@ -155,10 +169,41 @@ h4.no-results{
   display: block;
 }
 
-footer.page-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  margin: 0;
-  padding: 0;
+.git-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+  padding: 20px;
+}
+
+.git-img {
+  width: 40px;
+  -webkit-transition: -webkit-transform .8s ease-in-out;
+          transition:         transform .8s ease-in-out;
+}
+
+.git-container:hover .git-img {
+  -webkit-transform: rotate(360deg);
+          transform: rotate(360deg);
+}
+
+.git-text {
+  opacity: 0;
+  line-height: 40px;
+  float: left;
+  padding-right: 10px;
+  display: inline-block;
+  -webkit-transition: opacity .2s linear;
+          transition: opacity .2s linear;
+}
+
+a.git-link, a.git-link:visited, a.git-link:link, a.git-link:hover, a.git-link:hover {
+  color: #52616a;
+}
+
+.git-container:hover .git-text {
+  opacity: 1;
+  -webkit-transition: opacity .2s linear;
+          transition: opacity .2s linear;
 }
