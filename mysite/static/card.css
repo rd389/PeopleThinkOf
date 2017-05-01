@@ -83,6 +83,10 @@
   color: #9bafbb;
 }
 
+.question, .answer {
+  word-wrap: break-word;
+}
+
 .sent {
   font-weight: bold;
 }
