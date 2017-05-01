@@ -46,6 +46,13 @@
             </div>
 
             <div class="no-results-container {{no_results_class}}">
+
+                <div class="suggestion">
+                    {% if corr_query|length > 0 %}
+                        Did you mean <a href='/?desc={{corr_desc}}&topic={{topic}}'>"{{corr_query}}"</a>
+                    {% endif %}
+                </div>
+
                 <h4 class="no-results {{no_results_class}}"> No results for "{{result_label}}"</h4>
 
                 <p> But enjoy this meme instead.</p><br>

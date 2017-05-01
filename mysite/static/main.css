@@ -138,13 +138,21 @@ input[type=text], input[type=password], input[type=email], input[type=date], inp
   text-align: center;
 }
 
+.suggestion {
+  color: #8d9da7;
+  font-weight: 300;
+  font-size: 15px;
+  font-style: italic;
+}
+
 .no-results-container {
   text-align: center;
 }
 
 h4.no-results {
-  padding-top: 50px;
-  margin-bottom: 30px;
+  padding-top: 35px;
+  margin-top: 0;
+  margin-bottom: 0;
   color: #8d9da7;
   font-weight: 300;
   font-size: 21px;
@@ -152,6 +160,7 @@ h4.no-results {
 }
 
 .no-results-container p {
+  margin-top: 10px;
   color: #8d9da7;
   font-weight: 300;
   font-size: 15px;

@@ -83,6 +83,10 @@
   color: #9bafbb;
 }
 
+.question, .answer {
+  word-wrap: break-word;
+}
+
 .sent {
   font-weight: bold;
 }
@@ -117,7 +121,7 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 500;
 }
 

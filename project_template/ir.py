@@ -18,7 +18,7 @@ from project_template import spelling
 MODEL = 'reddit'
 USE_WORDNET = 0
 MUL = 1
-
+L = 1
 """
     Taken from stackoverflow to catch the output to stdio to my own var
 """
@@ -120,39 +120,54 @@ def search_emp(query, cat, lim = 20):
     qa2thread = p['qa2thread']
 
     ## Use empath analyze to get category analysis on expanded category
-    if USE_WORDNET:
-        # Gather synonyms
+    # if USE_WORDNET:
+    #     # Gather synonyms
+
+    synonyms = find_syns(cat)
+    if synonyms == "":
+        print("no synonyms")
+        cat = spelling.correction(cat)
         synonyms = find_syns(cat)
+
         if synonyms == "":
-            print("no synonyms")
-            cat = spelling.correction(cat)
-            synonyms = find_syns(cat)
+            return [], None
+        else:
+            return [], cat
 
-        cat_vec = normalize(DOC_TFIDF_VECTORIZER.transform([synonyms]))
-        # multiply by normalized vector
-        row_vec = cat_vec.dot(DOC_TFIDF_MAT.T).T.toarray().flatten()
+    cat_vec = DOC_TFIDF_VECTORIZER.transform([synonyms])
+    # multiply by normalized vector
+    row_vec_syn = cat_vec.dot(DOC_TFIDF_MAT.T).T.toarray().flatten()
 
-    else:
-        # Expand category with create_category
-        with stdoutIO() as s:
-            LEX.create_category(cat, [cat], model = MODEL)
-        expanded_cat = s.getvalue()
-        print("Non expanded cat:" + expanded_cat)
-        expanded_cat = expanded_cat.replace("_", " ").replace("\"", "").replace("\\", "").replace("[", "").replace("]", "")
-        print("Expanded cat: " + expanded_cat)
+    # else:
 
-        emp_dict = LEX.analyze(expanded_cat)
-        emp_vec = EMP_VECTORIZER.transform(emp_dict)
-        # row_vec = np.dot(emp_vec, EMPATH_MATRIX.T).T
-        row_vec = np.dot(emp_vec/np.sqrt(emp_vec.dot(emp_vec.T)), EMPATH_MATRIX.T).T
+    # Expand category with create_category
+    expanded_cat = cat #could add spelling correction here
+    with stdoutIO() as s:
+        LEX.create_category(cat, [cat], model = MODEL)
+    expanded_cat = s.getvalue()
+    print("Non expanded cat:" + expanded_cat)
+    expanded_cat = expanded_cat.replace("_", " ").replace("\"", "").replace("\\", "").replace("[", "").replace("]", "")
+    print("Expanded cat: " + expanded_cat)
+
+    emp_dict = LEX.analyze(expanded_cat)
+    emp_vec = EMP_VECTORIZER.transform(emp_dict)
+    # row_vec = np.dot(emp_vec, EMPATH_MATRIX.T).T
+    row_vec_cat = np.log10(np.dot(emp_vec/np.sqrt(emp_vec.dot(emp_vec.T)), EMPATH_MATRIX.T).T.flatten() + L)
+    print("row_vec_cat shape: " + str(row_vec_cat.shape))
+
+    row_vec = row_vec_cat + row_vec_syn
 
     if np.sum(row_vec) == 0:
         print("Category has 0 count.")
 
-
     expanded_row_vec = np.zeros(mat.shape[0])
+    expanded_row_vec_cat = np.zeros(mat.shape[0])
+    expanded_row_vec_syn = np.zeros(mat.shape[0])
+
     # expanded_row_vec[qa_idx] = row_vec[thread_idx that qa_idx belongs to]
     for qa_idx in range(mat.shape[0]):
+        expanded_row_vec_cat[qa_idx] = row_vec_cat[qa2thread[qa_idx]]
+        expanded_row_vec_syn[qa_idx] = row_vec_syn[qa2thread[qa_idx]]
         expanded_row_vec[qa_idx] = row_vec[qa2thread[qa_idx]]
 
     q_vec = vectorizer.transform([query])
@@ -165,10 +180,16 @@ def search_emp(query, cat, lim = 20):
     else:
         weighted_results = results + expanded_row_vec[:, np.newaxis] #Scores
 
-    # if np.amax(weighted_results) <= 0.0:
-    #     print("no result damnit")
-    #     return []
+    if np.amax(weighted_results) <= 0.0:
+        print("no result damnit")
+        return [], None
 
     rank = np.argsort(weighted_results, axis=0)[::-1][:lim] #Indices
 
-    return [mapping[int(i)] for i in rank]
+    print("HERE'S THE SCORE")
+    scores = [(expanded_row_vec_syn[i], expanded_row_vec_cat[i], expanded_row_vec[i], results[i], weighted_results[i]) for i in rank]
+    for t in scores:
+        print(str(round(t[0], 2)) + " + " +  str(round(t[1], 2)) + " = " + str(round(t[2], 2)) + " * " + str(round(t[3], 2)) + " = " + str(round(t[4], 2)))
+
+
+    return [mapping[int(i)] for i in rank], None
