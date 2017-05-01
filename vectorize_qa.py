@@ -1,4 +1,3 @@
-
 import json, pickle
 import sys, time
 import numpy as np
@@ -30,7 +29,7 @@ t2 = time.time()
 print("Compilation time: " + str(t2-t1))
 
 
-vectorizer = TfidfVectorizer(min_df = 10, max_df = 0.9)
+vectorizer = TfidfVectorizer(min_df = 10, max_df = 0.9, ngram_range = (1, 2))
 tfidf_mat = vectorizer.fit_transform(qa_list)
 
 to_pickle = {'vectorizer': vectorizer,
