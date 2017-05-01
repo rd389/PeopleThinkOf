@@ -17,12 +17,4 @@ with open(os.path.join(PROJECT_ROOT,"thread_vec.pickle"), "rb") as handle:
     DOC_TFIDF_MAT = THREAD_VEC['tfidf_mat']
     DOC_TFIDF_VECTORIZER = THREAD_VEC['tfidf_vectorizer']
 
-#LOAD MATRIX DATA HERE
-with open(os.path.join(PROJECT_ROOT,"default_cats_matrix.pickle"), "rb") as handle:
-    matrix_data= pickle.load(handle)
-    MATRIX = matrix_data["matrix"]
-    CAT_LOOKUP = matrix_data["lookup"]
-
 LEX = Empath()
-IDX_TO_CAT = EMP_VECTORIZER.get_feature_names()
-CAT_TO_IDX = {cat:idx for idx, cat in enumerate(IDX_TO_CAT)}

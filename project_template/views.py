@@ -38,9 +38,9 @@ def index(request):
       raw_results, corr_desc = search_emp(topic, desc, lim=20)
 
     if corr_desc is not None:
-      corr_query = 'What do {} people think about {}?'.format(corr_desc, topic)
+      corr_query = 'What do {} people think of {}?'.format(corr_desc, topic)
 
-    result_label = 'What do {} people think about {}?'.format(desc_str, topic)
+    result_label = 'What do {} people think of {}?'.format(desc_str, topic)
 
     no_results_class = 'hide'
     subheader_class = 'show'

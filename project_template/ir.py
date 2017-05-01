@@ -12,12 +12,12 @@ import StringIO, contextlib, sys
 from project_template import UP_DATA as p
 from project_template import EMPATH_MATRIX, EMP_VECTORIZER
 from project_template import DOC_TFIDF_MAT, DOC_TFIDF_VECTORIZER
-from project_template import MATRIX, CAT_LOOKUP, CAT_TO_IDX, IDX_TO_CAT, LEX
+from project_template import LEX
 from project_template import spelling
 
 MODEL = 'reddit'
 USE_WORDNET = 0
-MUL = 0
+MUL = 1
 
 """
     Taken from stackoverflow to catch the output to stdio to my own var
@@ -100,19 +100,29 @@ def search_emp(query, cat, lim = 20):
         row_vec = cat_vec.dot(DOC_TFIDF_MAT.T).T.toarray().flatten()
 
     else:
+        # spell check
+        synonyms = find_syns(cat)
+        if synonyms == "":
+            print("no synonyms")
+            cat = spelling.correction(cat)
+            synonyms = find_syns(cat)
+
+            if synonyms == "":
+                return [], None
+            return [], cat
+
         # Expand category with create_category
-        expanded_cat = cat #could add spelling correction here
-        # with stdoutIO() as s:
-        #     LEX.create_category(cat, [cat], model = MODEL)
-        # expanded_cat = s.getvalue()
-        # print("Non expanded cat:" + expanded_cat)
-        # expanded_cat = expanded_cat.replace("_", " ").replace("\"", "").replace("\\", "").replace("[", "").replace("]", "")
-        # print("Expanded cat: " + expanded_cat)
+        with stdoutIO() as s:
+            LEX.create_category(cat, [cat], model = MODEL)
+        expanded_cat = s.getvalue()
+        print("Non expanded cat:" + expanded_cat)
+        expanded_cat = expanded_cat.replace("_", " ").replace("\"", "").replace("\\", "").replace("[", "").replace("]", "")
+        print("Expanded cat: " + expanded_cat)
 
         emp_dict = LEX.analyze(expanded_cat)
         emp_vec = EMP_VECTORIZER.transform(emp_dict)
 
-        row_vec = np.dot(emp_vec/np.sqrt(emp_vec.dot(emp_vec.T)), EMPATH_MATRIX.T).T
+        row_vec = np.dot(emp_vec, EMPATH_MATRIX.T).T
 
     if np.sum(row_vec) == 0:
         print("Category has 0 count.")
@@ -124,7 +134,7 @@ def search_emp(query, cat, lim = 20):
         expanded_row_vec[qa_idx] = row_vec[qa2thread[qa_idx]]
 
     q_vec = vectorizer.transform([query])
-    results = normalize(cos_sim(mat, q_vec))
+    results = cos_sim(mat, q_vec)
 
     if MUL:
         weighted_results = np.multiply(results, expanded_row_vec[:, np.newaxis]) #Scores
