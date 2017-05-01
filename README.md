@@ -8,6 +8,9 @@ Discover what certain types of people think and feel about a particular topic. G
 ## The Team
 
 [Ritwik Dan (@rd389)](https://github.com/rd389)
+
 [Soobin Han (@soobinhan)](https://github.com/soobinhan)
+
 [Jenny Kim (@sweetticket)](https://github.com/sweetticket)
+
 [Charles Yu (@charlesyu108)](https://github.com/charlesyu108)
