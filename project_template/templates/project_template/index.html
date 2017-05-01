@@ -29,7 +29,7 @@
                     <div class="top">
                         <div class="form-text inline">What do </div>
                         <div class="input-field inline">
-                            <input onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; }" id="desc" class="autocomplete" type="text" name="desc" value="{{desc_str}}">
+                            <input onkeydown="if (event.keyCode == 13) { this.form.submit(); return false; } else if (event.keyCode == 32) { return false }" id="desc" class="autocomplete" type="text" name="desc" value="{{desc_str}}">
                             <label for="desc">[descriptor]</label>
                         </div>
                         <div class="form-text inline">people </div>

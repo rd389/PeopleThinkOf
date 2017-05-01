@@ -71,7 +71,6 @@ def find_syns(word):
     for syn in wordnet.synsets(word):
         for l in syn.lemmas():
             synonyms += l.name() + ", "
-    print(synonyms)
     return synonyms
 
 def search_emp(query, cat, lim = 20):
