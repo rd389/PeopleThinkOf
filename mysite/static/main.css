@@ -145,6 +145,18 @@ input[type=text], input[type=password], input[type=email], input[type=date], inp
   font-style: italic;
 }
 
+.related {
+  text-align: center;
+}
+
+.related .subheader {
+  margin-bottom: 20px;
+}
+
+.related a {
+  font-style: italic;
+}
+
 .no-results-container {
   text-align: center;
 }

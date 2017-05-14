@@ -23,6 +23,7 @@ def index(request):
   top_cats_sents = []
   corr_desc = None
   corr_query = ''
+  rel_words = []
 
   if request.GET.get('topic'):
     topic = request.GET.get('topic')
@@ -39,7 +40,7 @@ def index(request):
       ###################################^^^^^^^^^##################################
       ################################YOU FEED THIS INTO FILTER()###################
       ################################LIKE THIS: ###################################
-      ##################################FILTERED_RESULT = FILTER(WORDS, orig_rank)##
+      ##################################FILTERED_RESULT = FILTER(WORDS, orig_rank)## 
 
     if corr_desc is not None:
       corr_query = 'What do {} people think of {}?'.format(corr_desc, topic)
@@ -81,5 +82,6 @@ def index(request):
                          'topic': topic,
                          'result_label': result_label,
                          'corr_query': corr_query,
-                         'corr_desc': corr_desc
+                         'corr_desc': corr_desc,
+                         'rel_words': rel_words
                          })

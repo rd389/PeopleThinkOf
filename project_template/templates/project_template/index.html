@@ -45,6 +45,18 @@
                 </form>
             </div>
 
+            {% if rel_words|length > 0 %}
+
+                <div class="related">
+                    <div class="subheader">
+                        Related Queries
+                    </div>
+                    {% for rel_word in rel_words %}
+                        <a href='/?desc={{desc_str}}&topic={{rel_word}}'>"What do {{desc_str}} people think about {{rel_word}}?"</a><br />
+                    {% endfor %}
+                </div>
+            {% endif %}
+
             <div class="no-results-container {{no_results_class}}">
 
                 <div class="suggestion">
