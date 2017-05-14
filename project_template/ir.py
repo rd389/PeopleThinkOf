@@ -166,18 +166,22 @@ def search_emp(query, cat, lim = 20):
     print(tfidf_sums_per_word[rank_rel_word])
     print([QA_TFIDF_IDX_TO_FEATURE[i] for i in rank_rel_word])
     print("=====================================")
-    
+
     return [mapping[int(i)] for i in rank], None, [QA_TFIDF_IDX_TO_FEATURE[i] for i in rank_rel_word]
 
-    def contains(qa_idx, words):
-        for word in words:
-            if QA_TFIDF_FEATURE_TO_IDX[qa_idx][word] > 0:
-                return true
-        return false
+def contains(qa_idx, words):
+    for word in words:
+        word_idx = QA_TFIDF_FEATURE_TO_IDX[word]
+        print("qa_idx: " + str(qa_idx) + ", word_idx: " + str(word_idx) + ", word: " + word)
+        print("array len: " + str(QA_TFIDF_MAT[qa_idx].shape))
+        print("num features: " + str(NUM_FEATURES_IN_QA))
+        if QA_TFIDF_MAT[qa_idx].T[word_idx] > 0:
+            return True
+    return False
 
-    def filter(words, original_results):
-        to_return = []
-        for idx in original_results:
-            if(contains(idx, words)):
-                to_return += [idx]
-        return to_return
+def filter(words, original_results):
+    filtered_rank = []
+    for idx in original_results:
+        if(contains(idx, words)):
+            filtered_rank += [idx]
+    return [mapping[int(i)] for i in filtered_rank]
