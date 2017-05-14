@@ -11,4 +11,21 @@ $( document ).ready(function() {
     minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
   })
 
+  $('input[type=radio]').on('change', function() {
+    $(this).closest("form").submit();
+  })
+
+  $('#desc, #topic').on('keydown', function(event) {
+    $('.filter-input').attr('checked', false)
+    $('.filter').hide()
+
+    if (event.keyCode == 13) {
+      $(this).closest('form').submit()
+      return false
+    } else if (this.id == 'desc' && event.keyCode == 32) {
+      return false
+    }
+
+  })
+
 })

@@ -132,7 +132,7 @@ input[type=text], input[type=password], input[type=email], input[type=date], inp
 .subheader {
   margin-top: 30px;
   margin-bottom: 35px;
-  color: #8d9da7;
+  color: #52616a;
   font-weight: 300;
   font-size: 21px;
   text-align: center;
@@ -142,18 +142,6 @@ input[type=text], input[type=password], input[type=email], input[type=date], inp
   color: #8d9da7;
   font-weight: 300;
   font-size: 15px;
-  font-style: italic;
-}
-
-.related {
-  text-align: center;
-}
-
-.related .subheader {
-  margin-bottom: 20px;
-}
-
-.related a {
   font-style: italic;
 }
 
@@ -227,4 +215,41 @@ a.git-link, a.git-link:visited, a.git-link:link, a.git-link:hover, a.git-link:ho
   opacity: 1;
   -webkit-transition: opacity .2s linear;
           transition: opacity .2s linear;
+}
+
+.filter {
+  padding: 40px 20px 35px 20px;
+  background-color: #f0f5f9;
+  color: #52616a;
+  text-align: center;
+}
+
+.filter .subheader {
+  margin-bottom: 20px;
+  margin-top: 0;
+}
+
+.filter .input-field.inline {
+  width: 19%;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin: 0;
+}
+
+.filter [type="checkbox"]:not(:checked) + label, [type="checkbox"]:checked + label {
+  line-height: 1.7;
+  color: #52616a;
+}
+
+.filter input {
+  display: none;
+}
+
+[type="checkbox"]:not(:checked) + label:before {
+  background-color: white;
+}
+
+.filter-btn {
+  margin-top: 3rem;
+  margin-bottom: 0;
 }

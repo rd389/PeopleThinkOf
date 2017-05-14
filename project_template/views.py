@@ -8,7 +8,7 @@ from .test import find_similar
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .meta import get_qa_info
-from .ir import search, search_emp
+from .ir import search, search_emp, filter_results
 from .sent import cat_sents
 
 
@@ -24,6 +24,7 @@ def index(request):
   corr_desc = None
   corr_query = ''
   rel_words = []
+  applied_filters = []
 
   if request.GET.get('topic'):
     topic = request.GET.get('topic')
@@ -55,6 +56,12 @@ def index(request):
       subheader_class = 'hide'
 
     else:
+
+      if request.GET.getlist('filters[]'):
+        applied_filters = request.GET.getlist('filters[]')
+        print(applied_filters)
+        raw_results = filter_results(applied_filters, orig_rank)
+
       results = [{"thread_id": res[0], "answer_id": res[1]} for res in raw_results]
 
       # fetch meta data from mongo
@@ -83,5 +90,6 @@ def index(request):
                          'result_label': result_label,
                          'corr_query': corr_query,
                          'corr_desc': corr_desc,
-                         'rel_words': rel_words
+                         'rel_words': rel_words,
+                         'applied_filters': applied_filters
                          })

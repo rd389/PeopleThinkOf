@@ -190,7 +190,8 @@ Input
 returns: filtered raw result
 
 '''
-def filter(words, original_results):
+def filter_results(words, original_results):
+    mapping = p['mapping']
     filtered_rank = []
     for idx in original_results:
         if(contains(idx, words)):
