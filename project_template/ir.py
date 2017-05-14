@@ -5,11 +5,14 @@ from sklearn.preprocessing import normalize as normalize
 from empath import Empath
 from nltk.corpus import wordnet
 import numpy as np
+from scipy.sparse import vstack
 import os
 from settings import PROJECT_ROOT
 import StringIO, contextlib, sys
 
 from project_template import UP_DATA as p
+from project_template import QA_TFIDF_MAT, QA_TFIDF_VECTORIZER, QA_TFIDF_FEATURE_TO_IDX
+from project_template import QA_TFIDF_IDX_TO_FEATURE, NUM_FEATURES_IN_QA
 from project_template import EMPATH_MATRIX, EMP_VECTORIZER
 from project_template import DOC_TFIDF_MAT, DOC_TFIDF_VECTORIZER
 from project_template import LEX
@@ -107,8 +110,8 @@ def search_emp(query, cat, lim = 20):
             synonyms = find_syns(cat)
 
             if synonyms == "":
-                return [], None
-            return [], cat
+                return [], None, None
+            return [], cat, None
 
         # Expand category with create_category
         with stdoutIO() as s:
@@ -142,8 +145,39 @@ def search_emp(query, cat, lim = 20):
 
     if np.amax(weighted_results) <= 0.0:
         print("no result damnit")
-        return [], None
+        return [], None, None
 
     rank = np.argsort(weighted_results, axis=0)[::-1][:lim] #Indices
 
-    return [mapping[int(i)] for i in rank], None
+    mini_tfidf_mat = vstack([QA_TFIDF_MAT[idx] for idx in rank]).toarray()
+    mini_tfidf_mat = np.multiply(mini_tfidf_mat, QA_TFIDF_VECTORIZER.idf_)
+    #.multiply(QA_TFIDF_VECTORIZER.idf_[0])
+    tfidf_sums_per_word = np.sum(mini_tfidf_mat, axis = 0)
+    rank_rel_word = np.argsort(tfidf_sums_per_word, axis = 0)[::-1][:5]
+
+    # topics = [query]
+    # topic_feature_idx = [QA_TFIDF_FEATURE_TO_IDX[t] for t in topics if t in QA_TFIDF_FEATURE_TO_IDX]
+    # topic_row_vec = vstack([mini_tfidf_mat[:,feature_idx] for feature_idx in topic_feature_idx])
+    # cooccur_mat = topic_row_vec.T.dot(mini_tfidf_mat)
+    # rank_rel_word = np.argsort(cooccur_mat)[:5]
+    #
+    print("=====================================")
+    print(QA_TFIDF_VECTORIZER.idf_[:10])
+    print(tfidf_sums_per_word[rank_rel_word])
+    print([QA_TFIDF_IDX_TO_FEATURE[i] for i in rank_rel_word])
+    print("=====================================")
+    
+    return [mapping[int(i)] for i in rank], None, [QA_TFIDF_IDX_TO_FEATURE[i] for i in rank_rel_word]
+
+    def contains(qa_idx, words):
+        for word in words:
+            if QA_TFIDF_FEATURE_TO_IDX[qa_idx][word] > 0:
+                return true
+        return false
+
+    def filter(words, original_results):
+        to_return = []
+        for idx in original_results:
+            if(contains(idx, words)):
+                to_return += [idx]
+        return to_return

@@ -35,7 +35,7 @@ def index(request):
     else:
       desc_str = desc
       # raw_results = categorized_search(topic, desc, lim = 20) #Current lim = 20
-      raw_results, corr_desc = search_emp(topic, desc, lim=20)
+      raw_results, corr_desc, rel_words = search_emp(topic, desc, lim=20)
 
     if corr_desc is not None:
       corr_query = 'What do {} people think of {}?'.format(corr_desc, topic)
