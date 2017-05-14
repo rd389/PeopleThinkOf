@@ -93,9 +93,9 @@ def search_emp(query, cat, lim = 20):
             synonyms = find_syns(cat)
 
             if synonyms == "":
-                return [], None
+                return [], None, None, None
             else:
-                return [], cat
+                return [], cat, None, None
 
         cat_vec = normalize(DOC_TFIDF_VECTORIZER.transform([synonyms]))
         # multiply by normalized vector
@@ -110,8 +110,8 @@ def search_emp(query, cat, lim = 20):
             synonyms = find_syns(cat)
 
             if synonyms == "":
-                return [], None, None
-            return [], cat, None
+                return [], None, None, None
+            return [], cat, None, None
 
         # Expand category with create_category
         with stdoutIO() as s:
@@ -145,7 +145,7 @@ def search_emp(query, cat, lim = 20):
 
     if np.amax(weighted_results) <= 0.0:
         print("no result damnit")
-        return [], None, None
+        return [], None, None, None
 
     rank = np.argsort(weighted_results, axis=0)[::-1][:lim] #Indices
 
@@ -167,7 +167,10 @@ def search_emp(query, cat, lim = 20):
     print([QA_TFIDF_IDX_TO_FEATURE[i] for i in rank_rel_word])
     print("=====================================")
 
-    return [mapping[int(i)] for i in rank], None, [QA_TFIDF_IDX_TO_FEATURE[i] for i in rank_rel_word]
+    return [mapping[int(i)] for i in rank], \
+            None, \
+            [QA_TFIDF_IDX_TO_FEATURE[i] for i in rank_rel_word], \
+            rank
 
 def contains(qa_idx, words):
     for word in words:
@@ -179,6 +182,14 @@ def contains(qa_idx, words):
             return True
     return False
 
+'''
+Input
+    words : list of strings
+    original_results : list of ints
+
+returns: filtered raw result
+
+'''
 def filter(words, original_results):
     filtered_rank = []
     for idx in original_results:
