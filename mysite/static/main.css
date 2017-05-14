@@ -218,7 +218,7 @@ a.git-link, a.git-link:visited, a.git-link:link, a.git-link:hover, a.git-link:ho
 }
 
 .filter {
-  padding: 40px 20px 35px 20px;
+  padding: 40px 20px;
   background-color: #f0f5f9;
   color: #52616a;
   text-align: center;
@@ -250,6 +250,13 @@ a.git-link, a.git-link:visited, a.git-link:link, a.git-link:hover, a.git-link:ho
 }
 
 .filter-btn {
-  margin-top: 3rem;
-  margin-bottom: 0;
+  margin-top: 2rem;
+  position: relative;
+  bottom: -10px;
+}
+
+@media (max-width: 1220px) {
+  .filter .input-field.inline {
+    width: 30%;
+  }
 }
